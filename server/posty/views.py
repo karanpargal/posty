@@ -4,12 +4,14 @@ from posty.serializers import TemplateSerializer, Template_formatSerializer, Tem
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from bs4 import BeautifulSoup as bs
-import os
-import re
-import boto3
-from html2image import Html2Image
-import requests
 from django.conf import settings
+import os
+import boto3
+# from html2image import Html2Image
+import requests
+import openai
+
+
 
 
 class TemplateViewSet(viewsets.ModelViewSet):
@@ -29,7 +31,8 @@ class getImageURL(APIView):
         try:
             template = Template_color.objects.get(template_id=template_id, format_id=format_id, color_id=color_id)
             read_serializer = Template_colorSerializer(template)
-            return Response(read_serializer.data)
+            url = read_serializer.data['templateS3URL']
+            return Response(url)
         except:
             return Response(status=404)
     
@@ -38,7 +41,16 @@ class getMultipleTemplates(APIView):
         try:
             template = Template_format.objects.filter(format = format_value)
             read_serializer = Template_formatSerializer(template, many=True)
-            return Response(read_serializer.data)
+            template_list = []
+            format_list = []
+            for i in range(len(read_serializer.data)):
+                format_list.append(read_serializer.data[i]['format_id'])
+            for i in range(len(format_list)):
+                template = Template_color.objects.filter(format_id = format_list[i])
+                read_serializer = Template_colorSerializer(template, many=True)
+                for j in range(len(read_serializer.data)):
+                    template_list.append(read_serializer.data[j]['templateS3URL'])
+            return Response(template_list)
         except:
             return Response(status=404)
 
@@ -48,48 +60,50 @@ class generateTemplates(APIView):
             
             data = request.query_params
             bucket_name = "posty-templates"
-            fetchTemplateFromS3(bucket_name,template_name) #Give a bucket name and template name
+            base = fetchTemplateFromS3(bucket_name,template_name) #Give a bucket name and template name
 
             #To generate custom text on the template
-            base = os.path.dirname(os.path.abspath(__file__))
+            # base = os.path.dirname(os.path.abspath(__file__))
             html = open(os.path.join(base, template_name+".html"))
             soup = bs(html, 'html.parser')
             
-            old_Title = soup.find("p", {"id": "title"})
-            new_Title = old_Title.find(text=re.compile('Enter Title')).replace_with(data['title'])
-            old_Punchline = soup.find("p", {"id": "punchline"})
-            new_Punchline = old_Punchline.find(text=re.compile('Enter Punchline')).replace_with(data['punchline'])
-            old_description = soup.find("p", {"id": "description"})
-            new_description = old_description.find(text=re.compile('Enter description')).replace_with(data['description'])
+            old_Title = soup.find(id="title")
+            new_Title = old_Title.replace_with(data['title'])
+            old_Punchline = soup.find(id="punchline")
+            new_Punchline = old_Punchline.replace_with(data['punchline'])
+            old_description = soup.find(id="description")
+            new_description = old_description.replace_with(data['description'])
 
             with open(template_name+".html", "wb") as f_output:
                 f_output.write(soup.prettify("utf-8"))
 
-            hti = Html2Image()
-            hti.screenshot(html_file=template_name+".html", save_as=template_name+".jpg")
+            # hti = Html2Image()
+            # hti.screenshot(html_file=template_name+".html", save_as=template_name+".jpg")
 
             return Response(data)
+
         except:
             return Response(status=404)
 
 def fetchTemplateFromS3(self, request, bucket_name, file_name, format=None):
     session = boto3.Session(
-         aws_access_key_id='ACCESS_KEY',
-        aws_secret_access_key='SECRET_KEY',
+         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
     )
     s3 = session.client('s3')
     s3 = boto3.client('s3')
     try:
-        s3.download_file(bucket_name, file_name, '/path/to/local/file') #Recheck the path
+        s3.download_file(bucket_name, file_name, f'/path/to/local/file/') #Recheck the path
         print(f'Successfully downloaded {file_name} from {bucket_name}')
+        return (f'/path/to/local/file/')
     except:
         print(f'Error downloading {file_name} from {bucket_name}')
 
 
 def uploadTemplateToS3(self, request, bucket_name, file_name, format=None):
     session = boto3.Session(
-        aws_access_key_id='ACCESS_KEY',
-        aws_secret_access_key=' SECRET_KEY',
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
     )
     s3 = session.client('s3')
     s3 = boto3.client('s3')
@@ -101,6 +115,7 @@ def uploadTemplateToS3(self, request, bucket_name, file_name, format=None):
     except:
         print(f'Error uploading {file_name} to {bucket_name}')
 
+
 def fetchRandomImage():
     headers = {'Authorization': f'Client-ID {settings.UNSPLASH_API_KEY}'}
     url = 'https://api.unsplash.com/photos/random'
@@ -110,3 +125,18 @@ def fetchRandomImage():
         return response.json()['urls']['regular']
     except:
         print('Error fetching image')
+
+
+def rephrase_prompt(prompt):
+    openai.api_key = settings.OPENAI_API_KEY
+    completions = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=f"Rewrite the following prompt: {prompt}",
+        max_tokens=1024,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
+
+    message = completions.choices[0].text
+    return message.strip()
