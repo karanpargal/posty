@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'posty',
 ]
@@ -53,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'server.urls'
@@ -134,4 +137,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 UNSPLASH_API_KEY = env('UNSPLASH_API_KEY')
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
-OPEN_AI_API_KEY = env('OPENAI_API_KEY')
+OPENAI_API_KEY = env('OPENAI_API_KEY')
+
+CORS_ORIGIN_ALLOW_ALL = True
