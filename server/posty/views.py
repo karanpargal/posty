@@ -46,10 +46,10 @@ class generateTemplates(APIView):
             base = os.path.abspath(os.path.dirname(__file__))
             template = Template_format.objects.filter(format = format_value)
             read_serializer = Template_formatSerializer(template, many=True)
-            print(read_serializer.data)
             template_id_check = []
             template_list = []
             format_list = []
+            uploaded_URLs = []
             for i in range(len(read_serializer.data)):
                 format_list.append(read_serializer.data[i]['format_id'])
             for i in range(len(format_list)):
@@ -61,9 +61,7 @@ class generateTemplates(APIView):
                         template_list.append(read_serializer.data[j]['templateS3URL'])
             for i in range(len(template_list)):
                 downloadFileFromURL(template_list[i],base+"/"+str(template_list[i].split('/')[-1].split('.')[0])+".html")
-            #
             templateLinks  = template_list
-            # templateLinks = getMultipleTemplates(format_value)
             for i in range(len(templateLinks)):
                 template_name = templateLinks[0].split('/')[-1].split('.')[0]
                 base = os.path.abspath(os.path.dirname(__file__))
@@ -78,15 +76,17 @@ class generateTemplates(APIView):
                 old_description = soup.find(id="description")
                 old_description.clear()
                 old_description.append(description)
-                with open(template_name+".html", "wb") as f_output:
+                with open(os.path.join(base,template_name+".html"), "wb") as f_output:
                     f_output.write(soup.prettify("utf-8"))
+                uploadTemplateToS3(self, request, template_name+".html",uploaded_URLs=uploaded_URLs)
 
-            return Response(data)
+            return JsonResponse({'urls': uploaded_URLs})
 
         except:
             return Response(status=404)
 
-def uploadTemplateToS3(self, request, bucket_name, file_name, format=None):
+
+def uploadTemplateToS3(self, request, file_name, uploaded_URLs, format=None):
     session = boto3.Session(
         aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
         aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
@@ -94,11 +94,16 @@ def uploadTemplateToS3(self, request, bucket_name, file_name, format=None):
     s3 = session.client('s3')
     s3 = boto3.client('s3')
     try:
-        s3.upload_file(f'/path/to/local/file', bucket_name, file_name) #Recheck the path
+        bucket_name = 'posty-templates'
+        base = os.path.abspath(os.path.dirname(__file__))
+        print(base)
+        s3.upload_file(base+'\\'+file_name, bucket_name,'generated-templates/'+file_name, ExtraArgs={'ACL': 'public-read','ContentType': "text/html","ContentDisposition": "inline"}) #Recheck the path
         print(f'Successfully uploaded {file_name} to {bucket_name}')
-        url = f"https://{bucket_name}.s3.amazonaws.com/{file_name}"
+        url = f"https://{bucket_name}.s3.amazonaws.com/generated-templates/{file_name}"
+        uploaded_URLs.append(url)
         return JsonResponse({'url': url})
-    except:
+    except Exception as e:
+        print(e)
         print(f'Error uploading {file_name} to {bucket_name}')
 
 
@@ -135,28 +140,3 @@ def downloadFileFromURL(url, local_file_path):
         print(f"Successfully downloaded {url} and saved to {local_file_path}")
     except Exception as e:
         print(f"Unable to download file from URL: {e}")
-
-@api_view(['GET'])
-def getMultipleTemplates(self, format_value, format=None):
-        try:
-            template = Template_format.objects.filter(format = format_value)
-            read_serializer = Template_formatSerializer(template, many=True)
-            print(read_serializer.data)
-            template_id_check = []
-            template_list = []
-            format_list = []
-            base = os.path.dirname(os.path.abspath(__file__))
-            for i in range(len(read_serializer.data)):
-                format_list.append(read_serializer.data[i]['format_id'])
-            for i in range(len(format_list)):
-                template = Template_color.objects.filter(format_id = format_list[i])
-                read_serializer = Template_colorSerializer(template, many=True)
-                for j in range(len(read_serializer.data)):
-                    if read_serializer.data[j]['template_id'] not in template_id_check:
-                        template_id_check.append(read_serializer.data[j]['template_id'])
-                        template_list.append(read_serializer.data[j]['templateS3URL'])
-            for i in range(len(template_list)):
-                downloadFileFromURL(template_list[i],base+"/"+str(template_list[i].split('/')[-1].split('.')[0])+".html")
-            return Response(template_list)
-        except:
-            return Response(status=404)
