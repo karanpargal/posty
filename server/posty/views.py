@@ -12,6 +12,9 @@ import boto3
 import json
 import requests
 import openai
+from selenium import webdriver
+import time
+from selenium.webdriver.common.by import By
 
 class TemplateViewSet(viewsets.ModelViewSet):
     queryset = Template.objects.all()
@@ -35,10 +38,11 @@ class getImageURL(APIView):
         except:
             return Response(status=404)
 
+### FOR HTML TYPE
+
 class generateTemplates(APIView):
     def get(self, request, format=None):
         try:
-            data = {}
             title = request.GET.get('title')
             cta = request.GET.get('cta')
             description = request.GET.get('description')
@@ -78,12 +82,66 @@ class generateTemplates(APIView):
                 old_description.append(description)
                 with open(os.path.join(base,template_name+".html"), "wb") as f_output:
                     f_output.write(soup.prettify("utf-8"))
-                uploadTemplateToS3(self, request, template_name+".html",uploaded_URLs=uploaded_URLs)
+                driver = webdriver.Chrome()
+                driver.maximize_window()
+                driver.get(os.path.join(base,template_name+".html"))
+                time.sleep(1)
+                driver.find_element(By.ID, "template").screenshot(os.path.join(base,template_name+".png"))
+                uploadTemplateToS3(self, request, template_name+".png",uploaded_URLs=uploaded_URLs)
 
             return JsonResponse({'urls': uploaded_URLs})
 
         except:
             return Response(status=404)
+
+
+## FOR SVG TYPE
+
+# class generateTemplates(APIView):
+#     def get(self, request, format=None):
+#         try:
+#             title = request.GET.get('title')
+#             cta = request.GET.get('cta')
+#             description = request.GET.get('description')
+#             format_value = request.GET.get('formatValue')
+#             base = os.path.abspath(os.path.dirname(__file__))
+#             template = Template_format.objects.filter(format = format_value)
+#             read_serializer = Template_formatSerializer(template, many=True)
+#             template_id_check = []
+#             template_list = []
+#             format_list = []
+#             uploaded_URLs = []
+#             for i in range(len(read_serializer.data)):
+#                 format_list.append(read_serializer.data[i]['format_id'])
+#             for i in range(len(format_list)):
+#                 template = Template_color.objects.filter(format_id = format_list[i])
+#                 read_serializer = Template_colorSerializer(template, many=True)
+#                 for j in range(len(read_serializer.data)):
+#                     if read_serializer.data[j]['template_id'] not in template_id_check:
+#                         template_id_check.append(read_serializer.data[j]['template_id'])
+#                         template_list.append(read_serializer.data[j]['templateS3URL'])
+#             for i in range(len(template_list)):
+#                 downloadFileFromURL(template_list[i],base+"/"+str(template_list[i].split('/')[-1].split('.')[0])+".svg")
+#             templateLinks  = template_list
+#             for i in range(len(templateLinks)):
+#                 template_name = templateLinks[0].split('/')[-1].split('.')[0]
+#                 base = os.path.abspath(os.path.dirname(__file__))
+#                 html = open(os.path.join(base, template_name+".svg"))
+#                 soup = bs(html, 'html.parser')
+#                 title_element = soup.find('tspan', {'id': 'title'})
+#                 title_element.string = title
+#                 cta_element = soup.find('tspan', {'id': 'cta'})
+#                 cta_element.string = cta
+#                 desc_element = soup.find('tspan', {'id': 'description'})
+#                 desc_element.string = description
+#                 with open(os.path.join(base,template_name+".svg"), "wb") as f_output:
+#                     f_output.write(soup.prettify("utf-8"))
+#                 uploadTemplateToS3(self, request, template_name+".svg",uploaded_URLs=uploaded_URLs)
+
+#             return JsonResponse({'urls': uploaded_URLs})
+
+#         except:
+#             return Response(status=404)
 
 
 def uploadTemplateToS3(self, request, file_name, uploaded_URLs, format=None):
@@ -97,7 +155,7 @@ def uploadTemplateToS3(self, request, file_name, uploaded_URLs, format=None):
         bucket_name = 'posty-templates'
         base = os.path.abspath(os.path.dirname(__file__))
         print(base)
-        s3.upload_file(base+'\\'+file_name, bucket_name,'generated-templates/'+file_name, ExtraArgs={'ACL': 'public-read','ContentType': "text/html","ContentDisposition": "inline"}) #Recheck the path
+        s3.upload_file(base+'\\'+file_name, bucket_name,'generated-templates/'+file_name, ExtraArgs={'ACL': 'public-read','ContentType': "image/png","ContentDisposition": "inline"}) #Recheck the path
         print(f'Successfully uploaded {file_name} to {bucket_name}')
         url = f"https://{bucket_name}.s3.amazonaws.com/generated-templates/{file_name}"
         uploaded_URLs.append(url)

@@ -57,26 +57,8 @@ const InputScreen = () => {
       .then((response) => response.json())
       .then((data) => {
         setTemplateURLs(data.urls);
-        console.log(data.urls);
-        for (let i = 0; i < data.urls.length; i++) {
-          fetch(data.urls[i])
-            .then((response) => response.text())
-            .then((htmlResponse) => {
-              console.log(htmlResponse);
-              const parser = new DOMParser();
-              const doc = parser.parseFromString(htmlResponse, "text/html");
-              const node = doc.getElementById("template");
-              toPng(node).then((dataUrl) => {
-                const img = new Image();
-                img.src = dataUrl;
-                data.urls[i] = img;
-                console.log(img);
-                console.log(dataUrl);
-              });
-            });
-        }
-        setTemplateURLs(data.urls);
         setIsTemplateOpen(true);
+        setTimesRendered(timesRendered + 1);
       });
   };
 
@@ -178,21 +160,15 @@ const InputScreen = () => {
         ) : (
           <div className="flex flex-wrap gap-4">
             {templateURLs.map((url) => (
-              <div className="flex flex-col gap-4">
-                {/* <Iframe
-                  key={timesRendered}
-                  url={url}
-                  width="500px"
-                  height="500px"
-                /> */}
-                <img src={url} alt="Image" />
+                <div>
+                <img src={url} alt="Image" className="h-[180px] w-[320px]" key={timesRendered}/>
                 <button
                   type="button"
                   className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none w-96 rounded-md"
                 >
                   Download
                 </button>
-              </div>
+                </div>
             ))}
           </div>
         )}
