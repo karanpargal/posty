@@ -77,7 +77,11 @@ const InputScreen = () => {
         </div>
         <div className="w-72 mb-4">
           <h1 className="mb-1.5">Dimensions</h1>
-          <select id="format" className="rounded w-96" onChange={handleSetFormat}>
+          <select
+            id="format"
+            className="rounded w-96"
+            onChange={handleSetFormat}
+          >
             <option selected>Choose a dimension</option>
             <option value="1080x1080">1080x1080</option>
             <option value="1920x1080">1920x1080</option>
@@ -131,6 +135,19 @@ const InputScreen = () => {
               Rephrase
             </button>
           </div>
+        </div>
+        <div className="mb-2">
+          <label
+            class="block mb-2 font-medium text-gray-900"
+            for="file_input"
+          >
+            Upload logo
+          </label>
+          <input
+            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:bg-amber-500"
+            id="file_input"
+            type="file"
+          />
         </div>
 
         <div className="mb-4">
@@ -186,3 +203,5 @@ const InputScreen = () => {
 };
 
 export default InputScreen;
+
+
