@@ -38,14 +38,13 @@ class getImageURL(APIView):
         except:
             return Response(status=404)
 
-### FOR HTML TYPE
-
 class generateTemplates(APIView):
     def get(self, request, format=None):
         try:
             title = request.GET.get('title')
             cta = request.GET.get('cta')
             description = request.GET.get('description')
+            body = request.GET.get('body')
             format_value = request.GET.get('formatValue')
             base = os.path.abspath(os.path.dirname(__file__))
             template = Template_format.objects.filter(format = format_value)
@@ -74,12 +73,16 @@ class generateTemplates(APIView):
                 old_Title = soup.find(id="title")
                 old_Title.clear()
                 old_Title.append(title)
+                if (description!=""):
+                    old_img = soup.find(id="bg-img")
+                    new_img = fetchRandomImage(description)
+                    old_img['src'] = new_img
                 old_Punchline = soup.find(id="CTA")
                 old_Punchline.clear()
                 old_Punchline.append(cta)
-                old_description = soup.find(id="description")
-                old_description.clear()
-                old_description.append(description)
+                old_body = soup.find(id="body")  
+                old_body.clear()
+                old_body.append(body)
                 with open(os.path.join(base,template_name+".html"), "wb") as f_output:
                     f_output.write(soup.prettify("utf-8"))
                 driver = webdriver.Chrome()
@@ -93,56 +96,6 @@ class generateTemplates(APIView):
 
         except:
             return Response(status=404)
-
-
-## FOR SVG TYPE
-
-# class generateTemplates(APIView):
-#     def get(self, request, format=None):
-#         try:
-#             title = request.GET.get('title')
-#             cta = request.GET.get('cta')
-#             description = request.GET.get('description')
-#             format_value = request.GET.get('formatValue')
-#             base = os.path.abspath(os.path.dirname(__file__))
-#             template = Template_format.objects.filter(format = format_value)
-#             read_serializer = Template_formatSerializer(template, many=True)
-#             template_id_check = []
-#             template_list = []
-#             format_list = []
-#             uploaded_URLs = []
-#             for i in range(len(read_serializer.data)):
-#                 format_list.append(read_serializer.data[i]['format_id'])
-#             for i in range(len(format_list)):
-#                 template = Template_color.objects.filter(format_id = format_list[i])
-#                 read_serializer = Template_colorSerializer(template, many=True)
-#                 for j in range(len(read_serializer.data)):
-#                     if read_serializer.data[j]['template_id'] not in template_id_check:
-#                         template_id_check.append(read_serializer.data[j]['template_id'])
-#                         template_list.append(read_serializer.data[j]['templateS3URL'])
-#             for i in range(len(template_list)):
-#                 downloadFileFromURL(template_list[i],base+"/"+str(template_list[i].split('/')[-1].split('.')[0])+".svg")
-#             templateLinks  = template_list
-#             for i in range(len(templateLinks)):
-#                 template_name = templateLinks[0].split('/')[-1].split('.')[0]
-#                 base = os.path.abspath(os.path.dirname(__file__))
-#                 html = open(os.path.join(base, template_name+".svg"))
-#                 soup = bs(html, 'html.parser')
-#                 title_element = soup.find('tspan', {'id': 'title'})
-#                 title_element.string = title
-#                 cta_element = soup.find('tspan', {'id': 'cta'})
-#                 cta_element.string = cta
-#                 desc_element = soup.find('tspan', {'id': 'description'})
-#                 desc_element.string = description
-#                 with open(os.path.join(base,template_name+".svg"), "wb") as f_output:
-#                     f_output.write(soup.prettify("utf-8"))
-#                 uploadTemplateToS3(self, request, template_name+".svg",uploaded_URLs=uploaded_URLs)
-
-#             return JsonResponse({'urls': uploaded_URLs})
-
-#         except:
-#             return Response(status=404)
-
 
 def uploadTemplateToS3(self, request, file_name, uploaded_URLs, format=None):
     session = boto3.Session(
@@ -164,16 +117,15 @@ def uploadTemplateToS3(self, request, file_name, uploaded_URLs, format=None):
         print(e)
         print(f'Error uploading {file_name} to {bucket_name}')
 
-
-def fetchRandomImage():
-    headers = {'Authorization': f'Client-ID {settings.UNSPLASH_API_KEY}'}
-    url = 'https://api.unsplash.com/photos/random'
+@api_view(['GET'])
+def fetchRandomImage(description, format=None):
+    url = f"https://api.unsplash.com/photos/random?query={description}&client_id={settings.UNSPLASH_API_KEY}"
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url)
         response.raise_for_status()
         return response.json()['urls']['regular']
     except:
-        print('Error fetching image')
+        return Response(status=404)
 
 @api_view(['GET'])
 def rephrasePrompt(request):
@@ -181,7 +133,7 @@ def rephrasePrompt(request):
     openai.api_key = settings.OPENAI_API_KEY
     completions = openai.Completion.create(
         engine="text-davinci-003",
-        prompt=f"Rewrite the following prompt: {prompt}",
+        prompt=f"Rewrite the following prompt: {prompt} and return the new generated prompt",
         max_tokens=1024,
         n=1,
         stop=None,

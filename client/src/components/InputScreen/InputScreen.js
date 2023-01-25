@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const InputScreen = () => {
   const [cta, setCta] = useState("");
@@ -12,7 +12,6 @@ const InputScreen = () => {
 
   const handleSetFormat = (e) => {
     setFormat(e.target.value);
-    console.log(e.target.value);
   };
 
   const handleSetBody = (e) => {
@@ -51,7 +50,7 @@ const InputScreen = () => {
 
   const S3Bucket = () => {
     fetch(
-      `http://127.0.0.1:8000/api/generateTemplates/?title=${headline}&cta=${cta}&description=${body}&formatValue=${format}`
+      `http://127.0.0.1:8000/api/generateTemplates/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -137,10 +136,7 @@ const InputScreen = () => {
           </div>
         </div>
         <div className="mb-2">
-          <label
-            class="block mb-2 font-medium text-gray-900"
-            for="file_input"
-          >
+          <label class="block mb-2 font-medium text-gray-900" for="file_input">
             Upload logo
           </label>
           <input
@@ -169,30 +165,24 @@ const InputScreen = () => {
           Create Image
         </button>
       </div>
-      <div className="justify-self-center" id="responseScreen">
+      <div  id="responseScreen">
         {!isTemplateOpen ? (
-          <div className="flex flex-col justify-center items-center  pr-56 h-[100%]">
+          <div className="flex flex-col justify-start mt-56 items-center pr-56 h-[100%]">
             <h1 className="text-4xl font-semibold mb-4">Templates</h1>
             <h1 className="text-xl font-medium mb-4">
               Click on Create Image to see the templates
             </h1>
           </div>
         ) : (
-          <div className="flex flex-wrap gap-4">
+          <div className="grid grid-cols-3 gap-y-5 gap-x-6 mx-6 my-20">
             {templateURLs.map((url) => (
               <div>
                 <img
                   src={url}
-                  alt="Image"
+                  alt="Template Generated"
                   className="h-[180px] w-[320px]"
                   key={timesRendered}
                 />
-                <button
-                  type="button"
-                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none w-96 rounded-md"
-                >
-                  Download
-                </button>
               </div>
             ))}
           </div>
@@ -203,5 +193,3 @@ const InputScreen = () => {
 };
 
 export default InputScreen;
-
-
