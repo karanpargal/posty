@@ -1,5 +1,5 @@
 from django.urls import path, include
-from posty.views import TemplateViewSet, Template_formatViewSet, Template_colorViewSet, getImageURL, uploadTemplateToS3, rephrasePrompt, generateTemplates, fetchRandomImage
+from posty.views import TemplateViewSet, Template_formatViewSet, Template_colorViewSet, getImageURL, uploadTemplateToS3, rephrasePrompt, generateTemplates, fetchRandomImage, fetchOtherColor
 
 urlpatterns = [
     path('templates/', TemplateViewSet.as_view({'get': 'list', 'post': 'create',})),
@@ -12,5 +12,6 @@ urlpatterns = [
     path('generateTemplates/', generateTemplates.as_view()),
     path('uploadTemplateToS3/', uploadTemplateToS3),
     path('rephrasePrompt/', rephrasePrompt),
-    path('fetchRandomImage/', fetchRandomImage)
+    path('fetchRandomImage/', fetchRandomImage),
+    path('fetchOtherColor/', fetchOtherColor)
 ]
