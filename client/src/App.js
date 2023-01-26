@@ -1,12 +1,12 @@
 import React from "react";
 import InputScreen from "./components/InputScreen/InputScreen";
-import Navbar from "./components/Navbar/Navbar";
+import Dashboard from "./components/Dashboard/Dashboard";
 
 function App() {
   return (
     <div>
-      <Navbar />
       <InputScreen />
+      {/* <Dashboard /> */}
     </div>
   );
 }

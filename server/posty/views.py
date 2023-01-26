@@ -175,7 +175,7 @@ def fetchOtherColor(request):
             for i in range(len(read_serializer.data)):
                 colours.append(read_serializer.data[i]['color_id'])
             print(colours)
-            new_color = random.choice(list(set(colours) - set(color_id)))
+            new_color = random.choice(list(set(colours) - set([color_id])))
             print(new_color)
             template = Template_color.objects.get(template_id = template_id, format_id = format_id, color_id = new_color)
             read_serializer = Template_colorSerializer(template)
