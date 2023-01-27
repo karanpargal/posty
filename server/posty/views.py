@@ -139,11 +139,11 @@ def rephrasePrompt(request):
     openai.api_key = settings.OPENAI_API_KEY
     completions = openai.Completion.create(
         engine="text-davinci-003",
-        prompt=f"Rewrite the following prompt: {prompt} and return the new generated prompt",
+        prompt=f"Rewrite the following in same character limit: {prompt} ",
         max_tokens=1024,
         n=1,
         stop=None,
-        temperature=0.5,
+        temperature=0.1,
     )
 
     message = completions.choices[0].text
@@ -216,3 +216,4 @@ def fetchOtherColor(request):
         except Exception as e:
             print(e)
             return Response(status=404)
+
