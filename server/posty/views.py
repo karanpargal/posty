@@ -88,7 +88,7 @@ class generateTemplates(APIView):
                 old_body.clear()
                 old_body.append(body)
                 with open(os.path.join(base,template_name+".html"), "wb") as f_output:
-                    f_output.write(soup.prettify("utf-8"))
+                    f_output.write(soup.encode())
                 driver = webdriver.Chrome()
                 driver.maximize_window()
                 driver.get(os.path.join(base,template_name+".html"))
@@ -127,6 +127,7 @@ def fetchRandomImage(description, format=None):
     try:
         response = requests.get(url)
         response.raise_for_status()
+        print(response.json()['urls']['regular'])
         return response.json()['urls']['regular']
     except Exception as e:
         print(e)
@@ -174,8 +175,10 @@ def fetchOtherColor(request):
             colours = []
             for i in range(len(read_serializer.data)):
                 colours.append(read_serializer.data[i]['color_id'])
-            print(colours)
-            new_color = random.choice(list(set(colours) - set([color_id])))
+            print(colours,color_id)
+            if(color_id in colours):
+                print("Color already exists")
+            new_color = random.choice(list(set(colours)))
             print(new_color)
             template = Template_color.objects.get(template_id = template_id, format_id = format_id, color_id = new_color)
             read_serializer = Template_colorSerializer(template)
@@ -201,7 +204,7 @@ def fetchOtherColor(request):
             old_body.clear()
             old_body.append(body)
             with open(os.path.join(base,template_name+".html"), "wb") as f_output:
-                f_output.write(soup.prettify("utf-8"))
+                f_output.write(soup.encode())
             driver = webdriver.Chrome()
             driver.maximize_window()
             driver.get(os.path.join(base,template_name+".html"))

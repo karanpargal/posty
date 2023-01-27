@@ -18,7 +18,6 @@ const InputScreen = () => {
   const [formatIDs, setFormatIDs] = useState(0);
   const [currImage, setCurrImage] = useState([]);
 
-
   const handleSetFormat = (e) => {
     setFormat(e.target.value);
   };
@@ -84,24 +83,26 @@ const InputScreen = () => {
 
   const handleModalClose = () => {
     setModalOpen(false);
-  }; 
+  };
 
   const handleChangeColour = (index) => {
-      console.log(index);
-      console.log(colourIds);
+    console.log(index);
+    console.log(colourIds);
 
-      const colorID = colourIds[index];
-      const templateID = templateIDs[index];
-      const formatID = formatIDs[index];
-      const imageURL = currImage[index];
-      fetch(`http://127.0.0.1:8000/api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`)
+    const colorID = colourIds[index];
+    const templateID = templateIDs[index];
+    const formatID = formatIDs[index];
+    const imageURL = currImage[index];
+    fetch(
+      `http://127.0.0.1:8000/api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
+    )
       .then((response) => response.json())
       .then((data) => {
         colourIds[index] = data.color_id;
         setTimeStamp(new Date().getTime());
         setSelectedTemplate(data.url[0]);
       });
-  }
+  };
 
   const S3Bucket = () => {
     fetch(
@@ -132,7 +133,6 @@ const InputScreen = () => {
               <option value="Instagram">Instagram</option>
               <option value="Youtube">YouTube</option>
               <option value="Twitter">Twitter</option>
-              <option value="test">test</option>
             </select>
           </div>
           <div className="w-72 mb-4">
@@ -146,7 +146,6 @@ const InputScreen = () => {
               <option value="1080x1080">1080x1080</option>
               <option value="1920x1080">1920x1080</option>
               <option value="1080x1920">1080x1920</option>
-              <option value="test">test</option>
             </select>
           </div>
           <div className="mb-2">
@@ -240,11 +239,11 @@ const InputScreen = () => {
           ) : (
             <div className="grid grid-cols-3 gap-y-5 gap-x-6 mx-6 my-20">
               {templateURLs.map((url, index) => (
-                <div>
+                <div className="relative h-[320px]">
                   <img
                     src={url + `?${timestamp}`}
                     alt="Template Generated"
-                    className="grouptemp h-[320px] w-[320px] rounded-lg hover:opacity-50"
+                    className="grouptemp object-cover max-w-full max-h-full rounded-lg hover:opacity-50"
                     onClick={() => {
                       handleOpenImage(url, index);
                     }}
@@ -252,29 +251,58 @@ const InputScreen = () => {
                 </div>
               ))}
               {modalOpen && (
-                <div class="fixed z-10  p-2 pl-[420px] md:inset-0 backdrop-blur-sm">
-                  <div class="relative w-full h-[80%] max-w-2xl md:h-auto bg-white">
-                    <div class="flex justify-between p-2">
-                      <h1 className="text-2xl font-semibold">Template</h1>
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" onClick={handleModalClose}>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <div class="fixed z-10 pt-16  p-2  md:inset-0 backdrop-blur-sm ">
+                  <div class="relative w-full ml-auto mr-auto h-[100%] max-w-4xl md:h-auto bg-white rounded-lg">
+                    <div class="flex justify-between p-2 pt-4 ">
+                      <h1 className="text-2xl font-semibold ml-7">Template</h1>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6 cursor-pointer mr-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        onClick={handleModalClose}
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     </div>
-                      <img src={selectedTemplate+`?${timestamp}`} alt="Selected Template" className="p-10"/>
-                      <div className="flex justify-between px-2 pb-5">
-                        <button
-                          type="button"
-                          onClick={()=>{handleChangeColour(selectedURLIndex);}}
-                          class="text-white ml-10 bg-blue-700 w-48 h-16 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-md"
-                        >Change Colour</button>
-                        <button
-                          type="button"
-                          class="text-white bg-blue-700 mr-10 w-48 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-md"
-                          onClick = {() => {S3Bucket(); handleOpenImage(templateURLs[selectedURLIndex],selectedURLIndex);}}
-                        >Change Image</button>
-                        </div>
+                
+                      <img
+                        src={selectedTemplate + `?${timestamp}`}
+                        alt="Selected Template"
+                        className="p-10 object-cover"
+                      />
+                    <div className="flex justify-between px-2 pb-5">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleChangeColour(selectedURLIndex);
+                        }}
+                        class="text-white ml-10 bg-blue-700 w-48 h-16 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-md"
+                      >
+                        Change Colour
+                      </button>
+                      <button
+                        type="button"
+                        class="text-white bg-blue-700 mr-10 w-48 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-md"
+                        onClick={() => {
+                          S3Bucket();
+                          handleOpenImage(
+                            templateURLs[selectedURLIndex],
+                            selectedURLIndex
+                          );
+                        }}
+                      >
+                        Change Image
+                      </button>
                     </div>
                   </div>
+                </div>
               )}
             </div>
           )}
