@@ -253,7 +253,7 @@ const InputScreen = () => {
                   </svg>
                   <svg
                     class="absolute z-0 top-36 left-48 text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
-                    onClick={() => {handleOpenImage(url, index);}}
+                    onClick={() => {handleDownloadImage(url, index);}}
                   >
                     <path d="M5.3642 38.3726C4.06146 38.3726 2.94663 37.9091 2.0197 36.9822C1.0912 36.0537 0.626953 34.9381 0.626953 33.6354V26.5295H5.3642V33.6354H33.7877V26.5295H38.525V33.6354C38.525 34.9381 38.0615 36.0537 37.1346 36.9822C36.2061 37.9091 35.0904 38.3726 33.7877 38.3726H5.3642ZM19.576 28.8981L7.73283 17.055L11.0489 13.6205L17.2073 19.7789V0.474609H21.9446V19.7789L28.103 13.6205L31.4191 17.055L19.576 28.8981Z" fill="white"/>
                   </svg>
