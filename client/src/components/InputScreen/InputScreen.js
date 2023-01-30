@@ -17,6 +17,7 @@ const InputScreen = () => {
   const [templateIDs, setTemplateIDs] = useState(0);
   const [formatIDs, setFormatIDs] = useState(0);
   const [currImage, setCurrImage] = useState([]);
+  const [logo, setLogo] = useState("");
 
   const handleSetFormat = (e) => {
     setFormat(e.target.value);
@@ -38,9 +39,16 @@ const InputScreen = () => {
     setCta(e.target.value);
   };
 
+  const handleSetLogo = (e) => {
+    setLogo(e.target.value);
+    console.log(logo);
+  };
+
   const handleClickHeadline = () => {
     const prompt = document.getElementById("headline").value;
-    fetch(`http://localhost:8000/api/rephrasePrompt/?prompt=${prompt}`)
+    fetch(
+      `https://posty-karanpargal-d1ra.live.cohesive.so/api/rephrasePrompt/?prompt=${prompt}`
+    )
       .then((response) => response.json())
       .then((data) => {
         document.getElementById("headline").value = data.message;
@@ -49,7 +57,9 @@ const InputScreen = () => {
 
   const handleClickBody = () => {
     const prompt = document.getElementById("body").value;
-    fetch(`http://localhost:8000/api/rephrasePrompt/?prompt=${prompt}`)
+    fetch(
+      `https://posty-karanpargal-d1ra.live.cohesive.so/api/rephrasePrompt/?prompt=${prompt}`
+    )
       .then((response) => response.json())
       .then((data) => {
         document.getElementById("body").value = data.message;
@@ -94,7 +104,7 @@ const InputScreen = () => {
     const formatID = formatIDs[index];
     const imageURL = currImage[index];
     fetch(
-      `http://127.0.0.1:8000/api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
+      `https://posty-karanpargal-d1ra.live.cohesive.so/api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -106,7 +116,7 @@ const InputScreen = () => {
 
   const S3Bucket = () => {
     fetch(
-      `http://127.0.0.1:8000/api/generateTemplates/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}`
+      `https://posty-karanpargal-d1ra.live.cohesive.so/api/generateTemplates/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -206,6 +216,7 @@ const InputScreen = () => {
               className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:bg-amber-500"
               id="file_input"
               type="file"
+              onChange={handleSetLogo}
             />
           </div>
 
@@ -247,15 +258,25 @@ const InputScreen = () => {
                   />
                   <svg
                     class="absolute z-0 top-36 left-24 text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
-                    onClick={() => {handleOpenImage(url, index);}}
+                    onClick={() => {
+                      handleOpenImage(url, index);
+                    }}
                   >
-                    <path d="M26.424 5.39545C30.7793 5.38097 35.0503 6.59583 38.7459 8.90037C42.4415 11.2049 45.4118 14.5056 47.3153 18.4229C43.4071 26.4052 35.4248 31.4503 26.424 31.4503C17.4232 31.4503 9.44098 26.4052 5.53274 18.4229C7.43621 14.5056 10.4065 11.2049 14.1021 8.90037C17.7978 6.59583 22.0687 5.38097 26.424 5.39545ZM26.424 0.658203C14.5809 0.658203 4.46686 8.02463 0.369141 18.4229C4.46686 28.8212 14.5809 36.1876 26.424 36.1876C38.2671 36.1876 48.3812 28.8212 52.4789 18.4229C48.3812 8.02463 38.2671 0.658203 26.424 0.658203ZM26.424 12.5013C27.9945 12.5013 29.5007 13.1252 30.6112 14.2357C31.7217 15.3462 32.3456 16.8524 32.3456 18.4229C32.3456 19.9934 31.7217 21.4996 30.6112 22.6101C29.5007 23.7206 27.9945 24.3445 26.424 24.3445C24.8535 24.3445 23.3473 23.7206 22.2368 22.6101C21.1263 21.4996 20.5025 19.9934 20.5025 18.4229C20.5025 16.8524 21.1263 15.3462 22.2368 14.2357C23.3473 13.1252 24.8535 12.5013 26.424 12.5013ZM26.424 7.76408C20.5498 7.76408 15.7652 12.5487 15.7652 18.4229C15.7652 24.2971 20.5498 29.0817 26.424 29.0817C32.2982 29.0817 37.0828 24.2971 37.0828 18.4229C37.0828 12.5487 32.2982 7.76408 26.424 7.76408Z" fill="white"/>
+                    <path
+                      d="M26.424 5.39545C30.7793 5.38097 35.0503 6.59583 38.7459 8.90037C42.4415 11.2049 45.4118 14.5056 47.3153 18.4229C43.4071 26.4052 35.4248 31.4503 26.424 31.4503C17.4232 31.4503 9.44098 26.4052 5.53274 18.4229C7.43621 14.5056 10.4065 11.2049 14.1021 8.90037C17.7978 6.59583 22.0687 5.38097 26.424 5.39545ZM26.424 0.658203C14.5809 0.658203 4.46686 8.02463 0.369141 18.4229C4.46686 28.8212 14.5809 36.1876 26.424 36.1876C38.2671 36.1876 48.3812 28.8212 52.4789 18.4229C48.3812 8.02463 38.2671 0.658203 26.424 0.658203ZM26.424 12.5013C27.9945 12.5013 29.5007 13.1252 30.6112 14.2357C31.7217 15.3462 32.3456 16.8524 32.3456 18.4229C32.3456 19.9934 31.7217 21.4996 30.6112 22.6101C29.5007 23.7206 27.9945 24.3445 26.424 24.3445C24.8535 24.3445 23.3473 23.7206 22.2368 22.6101C21.1263 21.4996 20.5025 19.9934 20.5025 18.4229C20.5025 16.8524 21.1263 15.3462 22.2368 14.2357C23.3473 13.1252 24.8535 12.5013 26.424 12.5013ZM26.424 7.76408C20.5498 7.76408 15.7652 12.5487 15.7652 18.4229C15.7652 24.2971 20.5498 29.0817 26.424 29.0817C32.2982 29.0817 37.0828 24.2971 37.0828 18.4229C37.0828 12.5487 32.2982 7.76408 26.424 7.76408Z"
+                      fill="white"
+                    />
                   </svg>
                   <svg
                     class="absolute z-0 top-36 left-48 text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
-                    onClick={() => {handleDownloadImage(url, index);}}
+                    onClick={() => {
+                      handleDownloadImage(url, index);
+                    }}
                   >
-                    <path d="M5.3642 38.3726C4.06146 38.3726 2.94663 37.9091 2.0197 36.9822C1.0912 36.0537 0.626953 34.9381 0.626953 33.6354V26.5295H5.3642V33.6354H33.7877V26.5295H38.525V33.6354C38.525 34.9381 38.0615 36.0537 37.1346 36.9822C36.2061 37.9091 35.0904 38.3726 33.7877 38.3726H5.3642ZM19.576 28.8981L7.73283 17.055L11.0489 13.6205L17.2073 19.7789V0.474609H21.9446V19.7789L28.103 13.6205L31.4191 17.055L19.576 28.8981Z" fill="white"/>
+                    <path
+                      d="M5.3642 38.3726C4.06146 38.3726 2.94663 37.9091 2.0197 36.9822C1.0912 36.0537 0.626953 34.9381 0.626953 33.6354V26.5295H5.3642V33.6354H33.7877V26.5295H38.525V33.6354C38.525 34.9381 38.0615 36.0537 37.1346 36.9822C36.2061 37.9091 35.0904 38.3726 33.7877 38.3726H5.3642ZM19.576 28.8981L7.73283 17.055L11.0489 13.6205L17.2073 19.7789V0.474609H21.9446V19.7789L28.103 13.6205L31.4191 17.055L19.576 28.8981Z"
+                      fill="white"
+                    />
                   </svg>
                 </div>
               ))}
