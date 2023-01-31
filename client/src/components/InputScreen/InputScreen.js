@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 
 const InputScreen = () => {
@@ -14,10 +15,29 @@ const InputScreen = () => {
   const [selectedTemplate, setSelectedTemplate] = useState("");
   const [selectedURLIndex, setSelectedURLIndex] = useState("");
   const [colourIds, setColourIds] = useState([]);
-  const [templateIDs, setTemplateIDs] = useState(0);
-  const [formatIDs, setFormatIDs] = useState(0);
+  const [templateIDs, setTemplateIDs] = useState([]);
+  const [formatIDs, setFormatIDs] = useState([]);
   const [currImage, setCurrImage] = useState([]);
   const [logo, setLogo] = useState("");
+
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/dashboard", {
+      state: {
+        cta: cta,
+        description: description,
+        headline: headline,
+        body: body,
+        format: format,
+        selectedTemplate: selectedTemplate,
+        selectedURLIndex: selectedURLIndex,
+        logo: logo,
+        templateIDs: templateIDs,
+        formatIDs: formatIDs,
+        colourIds: colourIds,
+      },
+    });
+  };
 
   const handleSetFormat = (e) => {
     setFormat(e.target.value);
@@ -168,7 +188,10 @@ const InputScreen = () => {
             />
           </div>
           <div className="mb-2">
-            <h1 className="mb-2">Headline of the image</h1>
+            <h1 className="mb-2">
+              Headline of the image{" "}
+              <span className="text-gray-500 text-sm">(optional)</span>
+            </h1>
             <div className="flex w-96 h-14">
               <input
                 type="text"
@@ -187,7 +210,10 @@ const InputScreen = () => {
             </div>
           </div>
           <div className="mb-2">
-            <h1 className="mb-2">Body text of image</h1>
+            <h1 className="mb-2">
+              Body text of image{" "}
+              <span className="text-gray-500 text-sm">(optional)</span>
+            </h1>
             <div className="flex w-96 h-14">
               <input
                 type="text"
@@ -210,7 +236,8 @@ const InputScreen = () => {
               class="block mb-2 font-medium text-gray-900"
               for="file_input"
             >
-              Upload logo
+              Upload logo{" "}
+              <span className="text-gray-500 text-sm">(optional)</span>
             </label>
             <input
               className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:bg-amber-500"
@@ -221,7 +248,9 @@ const InputScreen = () => {
           </div>
 
           <div className="mb-4">
-            <h1 className="mb-2">Add CTA</h1>
+            <h1 className="mb-2">
+              Add CTA <span className="text-gray-500 text-sm">(optional)</span>
+            </h1>
             <input
               type="text"
               className="border text-base font-normal w-96 h-14 rounded-md placeholder:pl-1"
@@ -236,15 +265,17 @@ const InputScreen = () => {
               S3Bucket();
             }}
           >
-            Create Image
+            Create Posts
           </button>
         </div>
         <div id="responseScreen">
           {!isTemplateOpen ? (
-            <div className="flex flex-col justify-start mt-56 items-center pr-56 h-[100%]">
-              <h1 className="text-4xl font-semibold mb-4">Templates</h1>
+            <div className="flex flex-col justify-items-center mt-56 items-center md:pr-40">
+              <h1 className="text-4xl font-semibold mb-4">
+                Your templates will be generated here!
+              </h1>
               <h1 className="text-xl font-medium mb-4">
-                Click on Create Image to see the templates
+                Click on ‘Create Posts’, to generate templates
               </h1>
             </div>
           ) : (

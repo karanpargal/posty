@@ -8,6 +8,7 @@ class Template(models.Model):
     def __str__(self):
         return self.name
 
+
 class Template_format(models.Model):
     format_id = models.AutoField(primary_key=True)
     template_id = models.ForeignKey(Template, on_delete=models.CASCADE)
@@ -25,6 +26,7 @@ class Template_format(models.Model):
     def __str__(self):
         return self.format
 
+
 class Template_color(models.Model):
     color_id = models.AutoField(primary_key=True)
     template_id = models.ForeignKey(Template, on_delete=models.CASCADE)
@@ -34,7 +36,6 @@ class Template_color(models.Model):
     fontColorDescription = models.CharField(max_length=30)
     fontColorCTA = models.CharField(max_length=30)
     templateS3URL = models.CharField(max_length=200)
-    
+
     def __str__(self):
         return self.color
-
