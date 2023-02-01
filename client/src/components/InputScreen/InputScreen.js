@@ -13,28 +13,31 @@ const InputScreen = () => {
   const [format, setFormat] = useState("1080x1080");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState("");
-  const [selectedURLIndex, setSelectedURLIndex] = useState("");
+  const [selectedURLIndex, setSelectedURLIndex] = useState(0);
   const [colourIds, setColourIds] = useState([]);
   const [templateIDs, setTemplateIDs] = useState([]);
   const [formatIDs, setFormatIDs] = useState([]);
-  const [currImage, setCurrImage] = useState([]);
+  const [currImage, setCurrImage] = useState("");
   const [logo, setLogo] = useState("");
 
   const navigate = useNavigate();
   const handleNavigate = () => {
-    navigate("/dashboard", {
+    setSelectedURLIndex(0);
+    navigate("/input", {
       state: {
         cta: cta,
         description: description,
         headline: headline,
         body: body,
         format: format,
-        selectedTemplate: selectedTemplate,
+        selectedTemplate: templateURLs[selectedURLIndex],
         selectedURLIndex: selectedURLIndex,
         logo: logo,
         templateIDs: templateIDs,
+        templateURLs: templateURLs,
         formatIDs: formatIDs,
         colourIds: colourIds,
+        currImage: currImage,
       },
     });
   };
@@ -67,7 +70,7 @@ const InputScreen = () => {
   const handleClickHeadline = () => {
     const prompt = document.getElementById("headline").value;
     fetch(
-      `https://posty-karanpargal-d1ra.live.cohesive.so/api/rephrasePrompt/?prompt=${prompt}`
+      `http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -78,7 +81,7 @@ const InputScreen = () => {
   const handleClickBody = () => {
     const prompt = document.getElementById("body").value;
     fetch(
-      `https://posty-karanpargal-d1ra.live.cohesive.so/api/rephrasePrompt/?prompt=${prompt}`
+      `http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -124,7 +127,7 @@ const InputScreen = () => {
     const formatID = formatIDs[index];
     const imageURL = currImage[index];
     fetch(
-      `https://posty-karanpargal-d1ra.live.cohesive.so/api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
+      `http://127.0.0.1:8000/api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -136,7 +139,7 @@ const InputScreen = () => {
 
   const S3Bucket = () => {
     fetch(
-      `https://posty-karanpargal-d1ra.live.cohesive.so/api/generateTemplates/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}`
+      `http://127.0.0.1:8000/api/generateTemplates/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -314,6 +317,9 @@ const InputScreen = () => {
                 </div>
               </div>
               ))}
+              <div>
+                <button onClick={handleNavigate}>Open screen</button>
+              </div>
               {modalOpen && (
                 <div class="fixed z-10 pt-10  p-2  md:inset-0 backdrop-blur-sm ">
                   <div class="relative w-full ml-auto mr-auto h-[90%] max-w-4xl md:h-auto bg-white rounded-lg">

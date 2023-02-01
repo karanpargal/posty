@@ -1,23 +1,79 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import { useLocation } from "react-router-dom";
 
 const EditTemplate = () => {
   const { state } = useLocation();
-  console.log(state);
-  //   const {
-  //     cta,
-  //     description,
-  //     headline,
-  //     body,
-  //     format,
-  //     selectedTemplate,
-  //     selectedURLIndex,
-  //     logo,
-  //     templateIDs,
-  //     formatIDs,
-  //     colourIds,
-  //   } = state;
+  const [timeStamp, setTimeStamp] = useState(new Date().getTime());
+  let {
+    cta,
+    description,
+    headline,
+    body,
+    format,
+    selectedTemplate,
+    selectedURLIndex,
+    logo,
+    templateIDs,
+    formatIDs,
+    colourIds,
+    currImage,
+  } = state;
+
+  const handleChangeColour = () => {
+    const colorID = colourIds[selectedURLIndex];
+    const templateID = templateIDs[selectedURLIndex];
+    const formatID = formatIDs[selectedURLIndex];
+    const imageURL = currImage[selectedURLIndex];
+    fetch(
+      `http://127.0.0.1:8000/api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        colourIds[selectedURLIndex] = data.color_id;
+        setTimeStamp(new Date().getTime());
+        selectedTemplate = data.url[0];
+        console.log(selectedTemplate);
+      });
+  };
+
+  const handleSetCTA = (e) => {
+    cta = e.target.value;
+  };
+
+  const handleSetFormat = (e) => {
+    format = e.target.value;
+  };
+
+  const handleSetDescription = (e) => {
+    description = e.target.value;
+  };
+
+  const handleSetHeadline = (e) => {
+    headline = e.target.value;
+  };
+
+  const handleSetBody = (e) => {
+    body = e.target.value;
+  };
+
+  const handleClickHeadline = () => {
+    const prompt = document.getElementById("headline").value;
+    fetch(`http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`)
+      .then((response) => response.json())
+      .then((data) => {
+        document.getElementById("headline").value = data.message;
+      });
+  };
+
+  const handleClickBody = () => {
+    const prompt = document.getElementById("body").value;
+    fetch(`http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`)
+      .then((response) => response.json())
+      .then((data) => {
+        document.getElementById("body").value = data.message;
+      });
+  };
 
   return (
     <div>
@@ -27,7 +83,10 @@ const EditTemplate = () => {
           <h1 className="font-semibold text-4xl mb-4 mt-4">Edit Input</h1>
           <div className="mb-2 text-md">
             <h1 className="mb-1.5">Social Media Platform</h1>
-            <select id="Platform" className="rounded w-96 border-2 border-site-purple py-2 px-1 font-normal text-base">
+            <select
+              id="Platform"
+              className="rounded w-96 border-2 border-site-purple py-2 px-1 font-normal text-base"
+            >
               <option selected>Choose a platform</option>
               <option value="Instagram">Instagram</option>
               <option value="Youtube">YouTube</option>
@@ -39,7 +98,7 @@ const EditTemplate = () => {
             <select
               id="format"
               className="rounded w-96 border-2 border-site-purple py-2 px-1 font-normal text-base"
-              //   onChange={handleSetFormat}
+              onChange={handleSetFormat}
             >
               <option selected>Choose a dimension</option>
               <option value="1080x1080">1080x1080</option>
@@ -53,7 +112,7 @@ const EditTemplate = () => {
               type="text"
               className="border text-base font-normal w-96 h-24 rounded-md placeholder:pl-1"
               placeholder="Eg: Candy, Cosmetics, Electronics"
-              //   onChange={handleSetDescription}
+              onChange={handleSetDescription}
             />
           </div>
           <div className="mb-2">
@@ -67,12 +126,12 @@ const EditTemplate = () => {
                 className="border w-96 text-base font-normal w-96 h-14 rounded-l-md placeholder:pl-1"
                 id="headline"
                 placeholder="Eg. Sale Sale Sale - 50% Discount"
-                // onChange={handleSetHeadline}
+                onChange={handleSetHeadline}
               />
               <button
                 type="button"
                 class="text-white bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-r-md"
-                // onClick={handleClickHeadline}
+                onClick={handleClickHeadline}
               >
                 Rephrase
               </button>
@@ -89,12 +148,12 @@ const EditTemplate = () => {
                 className="border w-96 text-base font-normal rounded-l-md placeholder:pl-1"
                 id="body"
                 placeholder="Eg. Sale! Sale! Sale!"
-                // onChange={handleSetBody}
+                onChange={handleSetBody}
               />
               <button
                 type="button"
                 class="text-white bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-r-md"
-                // onClick={handleClickBody}
+                onClick={handleClickBody}
               >
                 Rephrase
               </button>
@@ -124,7 +183,7 @@ const EditTemplate = () => {
               type="text"
               className="border text-base font-normal w-96 h-14 rounded-md placeholder:pl-1"
               placeholder="Eg: Order Now"
-              //   onChange={handleSetCTA}
+              onChange={handleSetCTA}
             />
           </div>
           <button
@@ -137,11 +196,17 @@ const EditTemplate = () => {
         <div className="ml-4">
           <h1 className="font-semibold text-3xl my-4">Generated Template</h1>
           <div className="flex justify-center">
-            <div className="relative  border-2 max-h-[500px] border-gray-300 rounded-md">
-              Image will be displayed here
+            <div className="relative rounded-md">
+              <img
+                src={selectedTemplate + `?${timeStamp}`}
+                className="object-cover rounded-md max-w-[600px] max-h-[600px]"
+              />
             </div>
             <div className="flex flex-col gap-2 ml-6">
-              <button className="px-10 py-2 border-2 rounded-md">
+              <button
+                className="px-10 py-2 border-2 rounded-md"
+                onClick={handleChangeColour}
+              >
                 Change Colour
               </button>
               <button className="px-10 py-2 border-2 rounded-md">
