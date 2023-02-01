@@ -158,7 +158,7 @@ const InputScreen = () => {
           <h1 className="font-semibold text-4xl mb-4 mt-4">Edit Input</h1>
           <div className="mb-2">
             <h1 className="mb-1.5">Social Media Platform</h1>
-            <select id="Platform" className="rounded w-96">
+            <select id="Platform" className="rounded w-96 border-2 border-site-purple py-2 px-1 font-normal text-base">
               <option selected>Choose a platform</option>
               <option value="Instagram">Instagram</option>
               <option value="Youtube">YouTube</option>
@@ -169,7 +169,7 @@ const InputScreen = () => {
             <h1 className="mb-1.5">Dimensions</h1>
             <select
               id="format"
-              className="rounded w-96"
+              className="rounded w-96 border-2 border-site-purple py-2 px-1 font-normal text-base"
               onChange={handleSetFormat}
             >
               <option selected>Choose a dimension</option>
@@ -202,7 +202,7 @@ const InputScreen = () => {
               />
               <button
                 type="button"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-r-md"
+                class="text-white bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-r-md"
                 onClick={handleClickHeadline}
               >
                 Rephrase
@@ -224,7 +224,7 @@ const InputScreen = () => {
               />
               <button
                 type="button"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-r-md"
+                class="text-white bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-r-md"
                 onClick={handleClickBody}
               >
                 Rephrase
@@ -240,7 +240,7 @@ const InputScreen = () => {
               <span className="text-gray-500 text-sm">(optional)</span>
             </label>
             <input
-              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:bg-amber-500"
+              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:bg-site-purple file:text-white file:py-3 file:border-0"
               id="file_input"
               type="file"
               onChange={handleSetLogo}
@@ -260,7 +260,7 @@ const InputScreen = () => {
           </div>
           <button
             type="button"
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none w-96 rounded-md"
+            className="text-white bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none w-96 rounded-md"
             onClick={() => {
               S3Bucket();
             }}
@@ -281,7 +281,9 @@ const InputScreen = () => {
           ) : (
             <div className="grid grid-cols-3 gap-y-5 gap-x-6 mx-6 my-20">
               {templateURLs.map((url, index) => (
-                <div className="group relative h-[320px]">
+                <div>
+                  <h1 className="font-semibold text-3xl my-4">Generated Templates</h1>
+                <div className="group relative ">
                   <img
                     src={url + `?${timestamp}`}
                     alt="Template Generated"
@@ -310,6 +312,7 @@ const InputScreen = () => {
                     />
                   </svg>
                 </div>
+              </div>
               ))}
               {modalOpen && (
                 <div class="fixed z-10 pt-10  p-2  md:inset-0 backdrop-blur-sm ">

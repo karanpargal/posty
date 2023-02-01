@@ -10,7 +10,10 @@ module.exports = {
       fontFamily: {
         inter: ["Inter", "sans-serif"],
       },
+      colors: {
+        "site-purple": "#7753F8",
     },
   },
   plugins: [require('flowbite/plugin')],
+}
 }
