@@ -34,16 +34,14 @@ for var in "$@"; do
    fi
 done
 
-USER 1200
-
 #============================================
 # Chrome webdriver
 #============================================
 # can specify versions by CHROME_DRIVER_VERSION
 # Latest released version will be used by default
 #============================================
-CHROME_MAJOR_VERSION=$(google-chrome --version | sed -E "s/.* ([0-9]+)(\.[0-9]+){3}.*/\1/")
-curl -ls https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_MAJOR_VERSION}
+CHROME_DRIVER_VERSION=$(google-chrome --version | sed -E "s/.* ([0-9]+)(\.[0-9]+){3}.*/\1/")
+curl -ls https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_DRIVER_VERSION}
 echo "Using chromedriver version: "$CHROME_DRIVER_VERSION \
   && wget --no-verbose -O /tmp/chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip \
   && rm -rf /opt/selenium/chromedriver \
@@ -57,4 +55,7 @@ echo "Using chromedriver version: "$CHROME_DRIVER_VERSION \
 #============================================
 # Dumping Browser name and version for config
 #============================================
-RUN echo "chrome" > /opt/selenium/browser_name
+echo "chrome" > /opt/selenium/chromedriver-$CHROME_DRIVER_VERSION
+
+# Set chrome driver in path
+export PATH=$PATH:/opt/selenium/chromedriver-$CHROME_DRIVER_VERSION
