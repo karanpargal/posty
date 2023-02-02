@@ -19,7 +19,7 @@ from selenium import webdriver
 import time
 import random
 from selenium.webdriver.common.by import By
-from cohesive.auth import AuthDetails
+# from cohesive.auth import AuthDetails
 
 class TemplateViewSet(viewsets.ModelViewSet):
     queryset = Template.objects.all()
@@ -52,8 +52,8 @@ class getImageURL(APIView):
 class generateTemplates(APIView):
     def get(self, request, format=None):
         try:
-            if not isinstance(request.auth_details, AuthDetails):
-                return Response({"error": "no auth details found"}, status=401)
+            # if not isinstance(request.auth_details, AuthDetails):
+            #     return Response({"error": "no auth details found"}, status=401)
             title = request.GET.get("title")
             cta = request.GET.get("cta")
             description = request.GET.get("description")
@@ -180,8 +180,8 @@ def fetchRandomImage(description, format=None):
 
 @api_view(["GET"])
 def rephrasePrompt(request):
-    if not isinstance(request.auth_details, AuthDetails):
-        return Response({"error": "no auth details found"}, status=401)
+    # if not isinstance(request.auth_details, AuthDetails):
+    #     return Response({"error": "no auth details found"}, status=401)
     prompt = request.GET.get("prompt")
     openai.api_key = settings.OPENAI_API_KEY
     completions = openai.Completion.create(
@@ -210,8 +210,8 @@ def downloadFileFromURL(url, local_file_path):
 def fetchOtherColor(request):
     if request.method == "GET":
         try:
-            if not isinstance(request.auth_details, AuthDetails):
-                return Response({"error": "no auth details found"}, status=401)
+            # if not isinstance(request.auth_details, AuthDetails):
+            #     return Response({"error": "no auth details found"}, status=401)
             uploaded_URLs = []
             color_id = request.GET.get("colorID")
             template_id = request.GET.get("templateID")
@@ -284,8 +284,8 @@ def fetchOtherColor(request):
 def fetchAllTemplates(request):
     if request.method == "GET":
         try:
-            if not isinstance(request.auth_details, AuthDetails):
-                return Response({"error": "no auth details found"}, status=401)
+            # if not isinstance(request.auth_details, AuthDetails):
+            #     return Response({"error": "no auth details found"}, status=401)
             templates = Template_color.objects.all()
             read_serializer = Template_colorSerializer(templates, many=True)
             S3Links = []
