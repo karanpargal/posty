@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Axios } from '../public/scripts/sdk-client';
 import Navbar from "../Navbar/Navbar";
 
 const InputScreen = () => {
@@ -69,7 +70,7 @@ const InputScreen = () => {
 
   const handleClickHeadline = () => {
     const prompt = document.getElementById("headline").value;
-    fetch(
+    Axios.get(
       `http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`
     )
       .then((response) => response.json())
@@ -80,7 +81,7 @@ const InputScreen = () => {
 
   const handleClickBody = () => {
     const prompt = document.getElementById("body").value;
-    fetch(
+    Axios.get(
       `http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`
     )
       .then((response) => response.json())
@@ -96,7 +97,7 @@ const InputScreen = () => {
   };
 
   const handleDownloadImage = (url, index) => {
-    fetch(url, {
+    Axios.get(url, {
       method: "GET",
       responseType: "blob",
       headers: {
@@ -126,7 +127,7 @@ const InputScreen = () => {
     const templateID = templateIDs[index];
     const formatID = formatIDs[index];
     const imageURL = currImage[index];
-    fetch(
+    Axios.get(
       `http://127.0.0.1:8000/api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
     )
       .then((response) => response.json())
@@ -138,7 +139,7 @@ const InputScreen = () => {
   };
 
   const S3Bucket = () => {
-    fetch(
+    Axios.get(
       `http://127.0.0.1:8000/api/generateTemplates/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}`
     )
       .then((response) => response.json())

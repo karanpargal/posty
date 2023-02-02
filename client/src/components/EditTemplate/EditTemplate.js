@@ -25,7 +25,7 @@ const EditTemplate = () => {
     const templateID = templateIDs[selectedURLIndex];
     const formatID = formatIDs[selectedURLIndex];
     const imageURL = currImage[selectedURLIndex];
-    fetch(
+    Axios.get(
       `http://127.0.0.1:8000/api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
     )
       .then((response) => response.json())
@@ -59,7 +59,7 @@ const EditTemplate = () => {
 
   const handleClickHeadline = () => {
     const prompt = document.getElementById("headline").value;
-    fetch(`http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`)
+    Axios.get(`http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`)
       .then((response) => response.json())
       .then((data) => {
         document.getElementById("headline").value = data.message;
@@ -68,7 +68,7 @@ const EditTemplate = () => {
 
   const handleClickBody = () => {
     const prompt = document.getElementById("body").value;
-    fetch(`http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`)
+    Axios.get(`http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`)
       .then((response) => response.json())
       .then((data) => {
         document.getElementById("body").value = data.message;

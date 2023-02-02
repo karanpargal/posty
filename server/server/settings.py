@@ -12,13 +12,22 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import environ
+import cohesive
+import cohesive_django
 
-env = environ.Env()
+
 # reading .env file
+env = environ.Env()
 environ.Env.read_env()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+#Cohesive settings
+cohesive.api_base = str(env("COHESIVE_BASE_URL"))
+cohesive.api_key = str(env("COHESIVE_API_KEY"))
+cohesive.app_id = str(env("COHESIVE_APP_ID"))
+cohesive.app_secret = str(env("COHESIVE_APP_SECRET"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -54,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'cohesive_marketplace_django.auth.AuthMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
@@ -135,8 +145,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 UNSPLASH_API_KEY = env('UNSPLASH_API_KEY')
-AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_ACCESS_KEY_ID = env('POSTY_AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('POSTY_AWS_SECRET_ACCESS_KEY')
 OPENAI_API_KEY = env('OPENAI_API_KEY')
 
 CORS_ORIGIN_ALLOW_ALL = True
