@@ -98,15 +98,12 @@ const InputScreen = () => {
   };
 
   const handleDownloadImage = (url, index) => {
-    Axios.get(url, {
-      method: "GET",
-      responseType: "blob",
-      headers: {
-        "Content-Disposition": "attachment",
-        "Content-Type": "image/png",
-      },
+    Axios.get({
+      url: url,
+      method: 'GET',
+      responseType: 'blob',
     })
-      .then((response) => response.blob())
+      .then((response) => response.data)
       .then((blob) => {
         const blobUrl = URL.createObjectURL(blob);
         const a = document.createElement("a");
