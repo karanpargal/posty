@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import { useLocation } from "react-router-dom";
+import { Axios } from '../public/scripts/sdk-client';
 
 const EditTemplate = () => {
   const { state } = useLocation();
