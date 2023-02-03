@@ -20,6 +20,7 @@ const InputScreen = () => {
   const [formatIDs, setFormatIDs] = useState([]);
   const [currImage, setCurrImage] = useState("");
   const [logo, setLogo] = useState("");
+  const URL = process.env.REACT_APP_API_URL;
 
   const navigate = useNavigate();
   const handleNavigate = () => {
@@ -71,7 +72,7 @@ const InputScreen = () => {
   const handleClickHeadline = () => {
     const prompt = document.getElementById("headline").value;
     Axios.get(
-      `http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`
+      `${URL}api/rephrasePrompt/?prompt=${prompt}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -82,7 +83,7 @@ const InputScreen = () => {
   const handleClickBody = () => {
     const prompt = document.getElementById("body").value;
     Axios.get(
-      `http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`
+      `${URL}api/rephrasePrompt/?prompt=${prompt}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -128,7 +129,7 @@ const InputScreen = () => {
     const formatID = formatIDs[index];
     const imageURL = currImage[index];
     Axios.get(
-      `http://127.0.0.1:8000/api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
+      `${URL}api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -140,7 +141,7 @@ const InputScreen = () => {
 
   const S3Bucket = () => {
     Axios.get(
-      `http://127.0.0.1:8000/api/generateTemplates/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}`
+      `${URL}api/generateTemplates/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}`
     )
       .then((response) => response.json())
       .then((data) => {

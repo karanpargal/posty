@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 
 const EditTemplate = () => {
   const { state } = useLocation();
+  const URL = process.env.REACT_APP_API_URL;
   const [timeStamp, setTimeStamp] = useState(new Date().getTime());
   let {
     cta,
@@ -26,7 +27,7 @@ const EditTemplate = () => {
     const formatID = formatIDs[selectedURLIndex];
     const imageURL = currImage[selectedURLIndex];
     Axios.get(
-      `http://127.0.0.1:8000/api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
+      `${URL}api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -59,7 +60,7 @@ const EditTemplate = () => {
 
   const handleClickHeadline = () => {
     const prompt = document.getElementById("headline").value;
-    Axios.get(`http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`)
+    Axios.get(`${URL}api/rephrasePrompt/?prompt=${prompt}`)
       .then((response) => response.json())
       .then((data) => {
         document.getElementById("headline").value = data.message;
@@ -68,7 +69,7 @@ const EditTemplate = () => {
 
   const handleClickBody = () => {
     const prompt = document.getElementById("body").value;
-    Axios.get(`http://127.0.0.1:8000/api/rephrasePrompt/?prompt=${prompt}`)
+    Axios.get(`${URL}api/rephrasePrompt/?prompt=${prompt}`)
       .then((response) => response.json())
       .then((data) => {
         document.getElementById("body").value = data.message;
