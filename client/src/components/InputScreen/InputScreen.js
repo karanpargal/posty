@@ -285,7 +285,7 @@ const InputScreen = () => {
               </h1>
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-y-5 gap-x-6 mx-6 my-20">
+            <div className="grid grid-cols-3 gap-y-5 gap-x-6 mx-6">
               {templateURLs.map((url, index) => (
                 <div>
                   <h1 className="font-semibold text-3xl my-4">Generated Templates</h1>
