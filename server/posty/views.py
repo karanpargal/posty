@@ -120,6 +120,7 @@ class generateTemplates(APIView):
                     f_output.write(soup.encode())
                 driver.get("file://"+pathToFile)
                 time.sleep(0.5)
+                print(pathToFile)
                 driver.find_element(By.ID, "template").screenshot(
                     os.path.join(base, template_name + ".png")
                 )
