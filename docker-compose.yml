@@ -1,0 +1,21 @@
+services:
+  posty:
+    image: posty
+    build:
+      dockerfile: ./Dockerfile.server
+    environment:
+      COHESIVE_API_KEY : 3607912730383d79e527cea4beba6f70d32e06ed7b488040d0adb1b72c0071fd
+      COHESIVE_APP_ID : 5
+      COHESIVE_APP_SECRET : d28f2ae67c97b72506b33dfad05bc8b4ff3cd0ee1b30a50fb7826f04a6d2509eac9ba9418053eee4c16ac42e92c22b32a84d3298b0d1c49bf246b3bfb1263652
+      COHESIVE_BASE_URL : cohesive.so/api/v1/external
+      COHESIVE_DUMMY_VAR : 42
+      DB_HOST : goblet1.services.heave.us
+      DB_NAME : db
+      DB_PASSWORD : EjzhJtfujJ%^
+      DB_PORT : 9021
+      DB_USER : root
+      OPENAI_API_KEY : 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
+      POSTY_AWS_ACCESS_KEY_ID : AKIA6M3COPYZJRLJTPW2
+      POSTY_AWS_SECRET_ACCESS_KEY : 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
+      SECRET_KEY : django-insecure-e7vhs&e=ve016v23eww_%@7m#+c@-&y2!01lry)lsyv)d^j*zo
+      UNSPLASH_API_KEY : FwLcRFKAfPKMZPMCbFY7vX7XLTYLBSomC6I-Rd5Mp5c
