@@ -143,14 +143,14 @@ const InputScreen = () => {
     Axios.get(
       `${URL}api/generateTemplates/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}`
     )
-      .then((response) => console.log(response))
-      .then((response) => {
-        setColourIds(response.data.color_ids);
-        setTemplateIDs(response.data.template_ids);
-        setFormatIDs(response.data.format_ids);
-        setTemplateURLs(response.data.urls);
+      .then((response) => response.data)
+      .then((data) => {
+        setColourIds(data.color_ids);
+        setTemplateIDs(data.template_ids);
+        setFormatIDs(data.format_ids);
+        setTemplateURLs(data.urls);
         setIsTemplateOpen(true);
-        setCurrImage(response.data.images);
+        setCurrImage(data.images);
         setTimeStamp(new Date().getTime());
       });
   };
