@@ -87,6 +87,9 @@ class generateTemplates(APIView):
                     + ".html",
                 )
             templateLinks = template_list
+            driver = webdriver.Chrome()
+            driver.maximize_window()
+
             for i in range(len(templateLinks)):
                 template_name = templateLinks[0].split("/")[-1].split(".")[0]
                 base = os.path.abspath(os.path.dirname(__file__))
@@ -106,14 +109,13 @@ class generateTemplates(APIView):
                 old_body = soup.find(id="body")
                 old_body.clear()
                 old_body.append(body)
+                pathToFile = os.path.join(base, template_name + ".html")
                 with open(
-                    os.path.join(base, template_name + ".html"), "wb"
+                    pathToFile, "wb"
                 ) as f_output:
                     f_output.write(soup.encode())
-                driver = webdriver.Chrome()
-                driver.maximize_window()
-                driver.get(os.path.join(base, template_name + ".html"))
-                time.sleep(1)
+                driver.get("file://"+pathToFile)
+                time.sleep(0.5)
                 driver.find_element(By.ID, "template").screenshot(
                     os.path.join(base, template_name + ".png")
                 )
@@ -132,8 +134,8 @@ class generateTemplates(APIView):
             )
 
         except Exception as e:
-            print(e)
-            return Response(status=404)
+            import json
+            return Response(status=500, data=json.dumps(e.__dict__))
 
 
 def uploadTemplateToS3(request, file_name, uploaded_URLs, format=None):
