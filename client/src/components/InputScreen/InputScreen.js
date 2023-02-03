@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Axios } from '../public/scripts/sdk-client';
+import { Axios } from '../../scripts/sdk-client';
 import Navbar from "../Navbar/Navbar";
 
 const InputScreen = () => {

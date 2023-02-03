@@ -51,17 +51,17 @@ function responseFromMobileClient(e) {
 const pageSyncSetup = () => {
   let previousUrl = "";
   const observer = new MutationObserver(function (mutations) {
-    if (location.href !== previousUrl) {
+    if (window.location.href !== previousUrl) {
       const message = JSON.stringify({
         source: "cohesive",
         event: "path-updated",
         data: {
           oldUrl: previousUrl,
-          newUrl: location.href,
-          newPath: location.pathname,
+          newUrl: window.location.href,
+          newPath: window.location.pathname,
         },
       });
-      previousUrl = location.href;
+      previousUrl = window.location.href;
       //* make sure to add cross site restriction for communication
       window.parent.postMessage(message, "*");
     }
