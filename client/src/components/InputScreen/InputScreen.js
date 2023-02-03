@@ -145,6 +145,7 @@ const InputScreen = () => {
     )
       .then((response) => response.data)
       .then((data) => {
+        console.log(data);
         setColourIds(data.color_ids);
         setTemplateIDs(data.template_ids);
         setFormatIDs(data.format_ids);
