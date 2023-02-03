@@ -74,7 +74,7 @@ const InputScreen = () => {
     Axios.get(
       `${URL}api/rephrasePrompt/?prompt=${prompt}`
     )
-      .then((response) => console.log(response))
+      .then((response) => response.data)
       .then((data) => {
         document.getElementById("headline").value = data.message;
       });
@@ -85,7 +85,7 @@ const InputScreen = () => {
     Axios.get(
       `${URL}api/rephrasePrompt/?prompt=${prompt}`
     )
-      .then((response) => console.log(response))
+      .then((response) => response.data)
       .then((data) => {
         document.getElementById("body").value = data.message;
       });
@@ -131,7 +131,7 @@ const InputScreen = () => {
     Axios.get(
       `${URL}api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
     )
-      .then((response) => console.log(response))
+      .then((response) => response.data)
       .then((data) => {
         colourIds[index] = data.color_id;
         setTimeStamp(new Date().getTime());
@@ -320,9 +320,9 @@ const InputScreen = () => {
                 </div>
               </div>
               ))}
-              <div>
+              {/* <div>
                 <button onClick={handleNavigate}>Open screen</button>
-              </div>
+              </div> */}
               {modalOpen && (
                 <div class="fixed z-10 pt-10  p-2  md:inset-0 backdrop-blur-sm ">
                   <div class="relative w-full ml-auto mr-auto h-[90%] max-w-4xl md:h-auto bg-white rounded-lg">
@@ -348,7 +348,7 @@ const InputScreen = () => {
                     <img
                       src={selectedTemplate + `?${timestamp}`}
                       alt="Selected Template"
-                      className="p-10 object-cover"
+                      className="p-10 object-cover max-h-[80%]"
                     />
                     <div className="flex justify-between px-2 pb-5">
                       <button
