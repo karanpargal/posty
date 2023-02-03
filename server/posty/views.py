@@ -155,7 +155,7 @@ def uploadTemplateToS3(request, file_name, uploaded_URLs, format=None):
         base = os.path.abspath(os.path.dirname(__file__))
         print(base)
         s3.upload_file(
-            base + "\\" + file_name,
+            os.path.join(base, file_name),
             bucket_name,
             "generated-templates/" + file_name,
             ExtraArgs={
