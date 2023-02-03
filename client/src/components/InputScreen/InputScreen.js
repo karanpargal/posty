@@ -74,7 +74,7 @@ const InputScreen = () => {
     Axios.get(
       `${URL}api/rephrasePrompt/?prompt=${prompt}`
     )
-      .then((response) => response.json())
+      .then((response) => console.log(response))
       .then((data) => {
         document.getElementById("headline").value = data.message;
       });
@@ -85,7 +85,7 @@ const InputScreen = () => {
     Axios.get(
       `${URL}api/rephrasePrompt/?prompt=${prompt}`
     )
-      .then((response) => response.json())
+      .then((response) => console.log(response))
       .then((data) => {
         document.getElementById("body").value = data.message;
       });
@@ -131,7 +131,7 @@ const InputScreen = () => {
     Axios.get(
       `${URL}api/fetchOtherColor/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}&colorID=${colorID}&templateID=${templateID}&formatID=${formatID}&imageURL=${imageURL}`
     )
-      .then((response) => response.json())
+      .then((response) => console.log(response))
       .then((data) => {
         colourIds[index] = data.color_id;
         setTimeStamp(new Date().getTime());
@@ -143,7 +143,7 @@ const InputScreen = () => {
     Axios.get(
       `${URL}api/generateTemplates/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}`
     )
-      .then((response) => response.json())
+      .then((response) => console.log(response))
       .then((data) => {
         setColourIds(data.color_ids);
         setTemplateIDs(data.template_ids);
