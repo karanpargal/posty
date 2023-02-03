@@ -144,13 +144,13 @@ const InputScreen = () => {
       `${URL}api/generateTemplates/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}`
     )
       .then((response) => console.log(response))
-      .then((data) => {
-        setColourIds(data.color_ids);
-        setTemplateIDs(data.template_ids);
-        setFormatIDs(data.format_ids);
-        setTemplateURLs(data.urls);
+      .then((response) => {
+        setColourIds(response.data.color_ids);
+        setTemplateIDs(response.data.template_ids);
+        setFormatIDs(response.data.format_ids);
+        setTemplateURLs(response.data.urls);
         setIsTemplateOpen(true);
-        setCurrImage(data.images);
+        setCurrImage(response.data.images);
         setTimeStamp(new Date().getTime());
       });
   };
