@@ -98,6 +98,7 @@ const InputScreen = () => {
   };
 
   const handleDownloadImage = (url, index) => {
+    console.log(url);
     Axios.get({
       url: url,
       method: 'GET',
@@ -155,13 +156,13 @@ const InputScreen = () => {
 
   return (
     <div className="font-inter">
-      <Navbar />
-      <div className="flex justify-between h-[100%]">
-        <div className="justify-self-start text-xl font-medium border-r-2 px-20">
-          <h1 className="font-semibold text-4xl mb-4 mt-4">Edit Input</h1>
-          <div className="mb-2">
-            <h1 className="mb-1.5">Social Media Platform</h1>
-            <select id="Platform" className="rounded w-96 border-2 border-site-purple py-2 px-1 font-normal text-base">
+      {/* <Navbar /> */}
+      <div className="grid grid-cols-3 h-[100%]">
+        <div className="justify-self-start font-medium border-r-2 pl-[39px] pr-[23px]">
+          <h1 className="font-semibold text-[36px] mb-3.5 mt-4">Edit Input</h1>
+          <div className="">
+            <h1 className="mb-2.5 text-[20px]">Social Media Platform</h1>
+            <select id="Platform" className="rounded-lg w-96 border-2 border-site-purple py-2 px-1 font-normal text-base mb-4">
               <option selected>Choose a platform</option>
               <option value="Instagram">Instagram</option>
               <option value="Youtube">YouTube</option>
@@ -169,10 +170,10 @@ const InputScreen = () => {
             </select>
           </div>
           <div className="w-72 mb-4">
-            <h1 className="mb-1.5">Dimensions</h1>
+            <h1 className="mb-2.5 text-[20px]">Dimensions</h1>
             <select
               id="format"
-              className="rounded w-96 border-2 border-site-purple py-2 px-1 font-normal text-base"
+              className="rounded-lg w-96 border-2 border-site-purple py-2 px-1 font-normal text-base"
               onChange={handleSetFormat}
             >
               <option selected>Choose a dimension</option>
@@ -181,65 +182,65 @@ const InputScreen = () => {
               <option value="1080x1920">1080x1920</option>
             </select>
           </div>
-          <div className="mb-2">
-            <h1 className="mb-2">Description of image</h1>
+          <div className="mb-4">
+            <h1 className="mb-2.5 text-[20px]">Keywords</h1>
             <input
               type="text"
-              className="border text-base font-normal w-96 h-24 rounded-md placeholder:pl-1"
+              className="border text-base font-normal w-96 h-24 rounded-lg placeholder:pl-1 placeholder:text-[16px]"
               placeholder="Eg: Candy, Cosmetics, Electronics"
               onChange={handleSetDescription}
             />
           </div>
-          <div className="mb-2">
-            <h1 className="mb-2">
-              Headline of the image{" "}
+          <div className="mb-4">
+            <h1 className="mb-2.5 text-[20px]">
+              Heading{" "}
               <span className="text-gray-500 text-sm">(optional)</span>
             </h1>
             <div className="flex w-96 h-14">
               <input
                 type="text"
-                className="border w-96 text-base font-normal w-96 h-14 rounded-l-md placeholder:pl-1"
+                className="border w-96 text-base font-normal w-96 h-14 rounded-l-lg placeholder:pl-1 placeholder:text-[16px]"
                 id="headline"
                 placeholder="Eg. Sale Sale Sale - 50% Discount"
                 onChange={handleSetHeadline}
               />
               <button
                 type="button"
-                class="text-white bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-r-md"
+                class="text-white bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-r-lg"
                 onClick={handleClickHeadline}
               >
                 Rephrase
               </button>
             </div>
           </div>
-          <div className="mb-2">
-            <h1 className="mb-2">
-              Body text of image{" "}
+          <div className="mb-4">
+            <h1 className="mb-2.5  text-[20px]">
+              Body{" "}
               <span className="text-gray-500 text-sm">(optional)</span>
             </h1>
             <div className="flex w-96 h-14">
               <input
                 type="text"
-                className="border w-96 text-base font-normal rounded-l-md placeholder:pl-1"
+                className="border w-96 font-normal rounded-l-lg placeholder:pl-1 placeholder:text-[16px]"
                 id="body"
                 placeholder="Eg. Sale! Sale! Sale!"
                 onChange={handleSetBody}
               />
               <button
                 type="button"
-                class="text-white bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-r-md"
+                class="text-white bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-r-lg"
                 onClick={handleClickBody}
               >
                 Rephrase
               </button>
             </div>
           </div>
-          <div className="mb-2">
+          <div className="mb-4">
             <label
-              class="block mb-2 font-medium text-gray-900"
+              class="block mb-2.5 font-medium text-gray-900 text-[20px]"
               for="file_input"
             >
-              Upload logo{" "}
+              Logo{" "}
               <span className="text-gray-500 text-sm">(optional)</span>
             </label>
             <input
@@ -250,20 +251,20 @@ const InputScreen = () => {
             />
           </div>
 
-          <div className="mb-4">
-            <h1 className="mb-2">
-              Add CTA <span className="text-gray-500 text-sm">(optional)</span>
+          <div className="mb-5">
+            <h1 className="mb-2.5 text-[20px]">
+              CTA <span className="text-gray-500 text-sm">(optional)</span>
             </h1>
             <input
               type="text"
-              className="border text-base font-normal w-96 h-14 rounded-md placeholder:pl-1"
+              className="border text-base font-normal w-96 h-14 rounded-lg placeholder:pl-1 placeholder:text-[16px]"
               placeholder="Eg: Order Now"
               onChange={handleSetCTA}
             />
           </div>
           <button
             type="button"
-            className="text-white bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none w-96 rounded-md"
+            className="text-white bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none w-96 rounded-lg"
             onClick={() => {
               S3Bucket();
             }}
@@ -271,9 +272,9 @@ const InputScreen = () => {
             Create Posts
           </button>
         </div>
-        <div id="responseScreen">
+        <div id="responseScreen" className="justify-self-center col-span-2">
           {!isTemplateOpen ? (
-            <div className="flex flex-col justify-items-center mt-56 items-center md:pr-40">
+            <div className="grid grid-cols-1 mt-56 justify-items-center">
               <h1 className="text-4xl font-semibold mb-4">
                 Your templates will be generated here!
               </h1>
@@ -317,9 +318,6 @@ const InputScreen = () => {
                 </div>
               </div>
               ))}
-              {/* <div>
-                <button onClick={handleNavigate}>Open screen</button>
-              </div> */}
               {modalOpen && (
                 <div class="fixed z-10 pt-10  p-2  md:inset-0 backdrop-blur-sm ">
                   <div class="relative w-full ml-auto mr-auto h-[90%] max-w-4xl md:h-auto bg-white rounded-lg">
@@ -353,13 +351,13 @@ const InputScreen = () => {
                         onClick={() => {
                           handleChangeColour(selectedURLIndex);
                         }}
-                        class="text-white ml-10 bg-blue-700 w-48 h-16 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-md"
+                        class="text-white ml-10 bg-blue-700 w-48 h-16 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-lg"
                       >
                         Change Colour
                       </button>
                       <button
                         type="button"
-                        class="text-white bg-blue-700 mr-10 w-48 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-md"
+                        class="text-white bg-blue-700 mr-10 w-48 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-lg"
                         onClick={() => {
                           S3Bucket();
                           handleOpenImage(
