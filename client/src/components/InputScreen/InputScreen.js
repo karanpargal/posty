@@ -197,7 +197,7 @@ const InputScreen = () => {
             />
           </div>
           <div className="mb-4">
-            <h1 className="mb-2.5 text-[16px]">Heading</h1>
+            <h1 className="mb-2.5 text-[16px]">Heading<span className="text-red-500 text-lg">*</span></h1>
             <div className="flex w-96 h-14">
               <input
                 type="text"
