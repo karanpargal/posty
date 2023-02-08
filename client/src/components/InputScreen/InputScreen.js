@@ -93,21 +93,32 @@ const InputScreen = () => {
     setModalOpen(true);
   };
 
-  const handleDownloadImage = (url, index) => {
-    Axios.get({
-      url: url,
-      method: "GET",
-      responseType: "blob",
-    })
-      .then((response) => response.data)
-      .then((blob) => {
-        const blobUrl = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = blobUrl;
-        a.download = `template${index}.png`;
-        a.click();
-      });
-  };
+  // const handleDownloadImage = (url, index) => {
+  //   Axios.get({
+  //     url: url,
+  //     method: "GET",
+  //     responseType: "blob",
+  //   })
+  //     .then((response) => response.data)
+  //     .then((blob) => {
+  //       const blobUrl = URL.createObjectURL(blob);
+  //       const a = document.createElement("a");
+  //       a.href = blobUrl;
+  //       a.download = `template${index}.png`;
+  //       a.click();
+  //     });
+  // };
+
+  async function handleDownloadImage(url, index) {
+    const response = await axios.get(url, {
+      responseType: 'blob'
+    });
+    const fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(fileBlob);
+    link.download = file;
+    link.click();
+  }
 
   const handleModalClose = () => {
     setModalOpen(false);
