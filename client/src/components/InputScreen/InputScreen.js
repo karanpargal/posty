@@ -153,7 +153,7 @@ const InputScreen = () => {
   return (
     <div className="font-inter">
       {/* <Navbar /> */}
-      <div className="grid grid-cols-3 h-[100%]">
+      <div className="grid grid-flow-col h-[100%] auto-cols-max gap-auto">
         <div className="justify-self-start font-medium border-r-2 pl-[39px] pr-[23px]">
           <h1 className="font-semibold text-[30px] mb-3.5 mt-4">Edit Input</h1>
           <div className="">
@@ -269,9 +269,9 @@ const InputScreen = () => {
             Create Posts
           </button>
         </div>
-        <div id="responseScreen" className="justify-self-center col-span-2">
+        <div id="responseScreen" className="justify-self-center">
           {!isTemplateOpen ? (
-            <div className="grid grid-cols-1 mt-56 justify-items-center">
+            <div className="grid grid-cols-1 mt-56 justify-items-center ml-96">
               <h1 className="text-4xl font-semibold mb-4">
                 Your templates will be generated here!
               </h1>
@@ -284,7 +284,7 @@ const InputScreen = () => {
               <h1 className="font-semibold text-3xl my-4">
                 Generated Templates
               </h1>
-              <div className="grid grid-cols-3 gap-y-5 gap-x-6 ml-2 mr-6">
+              <div className="grid grid-cols-3 gap-y-5 gap-x-6 ml-4 mr-6">
                 {templateURLs.map((url, index) => (
                   <div>
                     <div className="group relative ">
