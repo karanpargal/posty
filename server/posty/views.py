@@ -125,11 +125,10 @@ class generateTemplates(APIView):
                 driver.find_element(By.ID, "template").screenshot(
                     os.path.join(base, template_name + ".png")
                 )
-                driver.close()
                 uploadTemplateToS3(
                     request, template_name + ".png", uploaded_URLs=uploaded_URLs
                 )
-
+            driver.quit()
             return JsonResponse(
                 {
                     "urls": uploaded_URLs,
@@ -283,7 +282,7 @@ def fetchOtherColor(request):
             driver.find_element(By.ID, "template").screenshot(
                 os.path.join(base, template_name + ".png")
             )
-            driver.close()
+            driver.quit()
             uploadTemplateToS3(
                 request, template_name + ".png", uploaded_URLs=uploaded_URLs
             )
