@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Axios } from "../../scripts/sdk-client";
 import Navbar from "../Navbar/Navbar";
+import axios from "axios";
 
 const InputScreen = () => {
   const [cta, setCta] = useState("");
@@ -110,7 +111,7 @@ const InputScreen = () => {
   // };
 
   async function handleDownloadImage(url, index) {
-    const response = await Axios.get(url, {
+    const response = await axios.get(url, {
       responseType: 'text'
     });
     const fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
@@ -169,7 +170,7 @@ const InputScreen = () => {
             BannerBuilder
           </h1>
           <div className="">
-            <h1 className="mb-2.5 text-[16px]">Platform</h1>
+            <h1 className="mb-2.5 text-[16px] font-semibold">Platform</h1>
             <select
               id="Platform"
               className="rounded-lg w-96 border-2 border-site-purple py-2 px-1 font-normal text-base mb-4"
@@ -181,7 +182,7 @@ const InputScreen = () => {
             </select>
           </div>
           <div className="w-72 mb-4">
-            <h1 className="mb-2.5 text-[16px]">
+            <h1 className="mb-2.5 text-[16px] font-semibold">
               Dimensions<span className="text-red-500 text-lg">*</span>
             </h1>
             <select
@@ -196,7 +197,7 @@ const InputScreen = () => {
             </select>
           </div>
           <div className="mb-4">
-            <h1 className="mb-2.5 text-[16px]">
+            <h1 className="mb-2.5 text-[16px] font-semibold">
               Keywords<span className="text-red-500 text-lg">*</span>
             </h1>
             <input
@@ -207,7 +208,7 @@ const InputScreen = () => {
             />
           </div>
           <div className="mb-4">
-            <h1 className="mb-2.5 text-[16px]">Heading<span className="text-red-500 text-lg">*</span></h1>
+            <h1 className="mb-2.5 text-[16px] font-semibold">Heading<span className="text-red-500 text-lg">*</span></h1>
             <div className="flex w-96 h-14">
               <input
                 type="text"
@@ -226,7 +227,7 @@ const InputScreen = () => {
             </div>
           </div>
           <div className="mb-4">
-            <h1 className="mb-2.5  text-[16px]">Body</h1>
+            <h1 className="mb-2.5  text-[16px] font-semibold">Body</h1>
             <div className="w-96">
               <textarea
                 type="text"
@@ -247,7 +248,7 @@ const InputScreen = () => {
           </div>
           <div className="mb-4">
             <label
-              class="block mb-2.5 font-medium text-gray-900 text-[16px]"
+              class="block mb-2.5 font-medium text-gray-900 text-[16px] font-semibold"
               for="file_input"
             >
               Logo
@@ -261,7 +262,7 @@ const InputScreen = () => {
           </div>
 
           <div className="mb-5">
-            <h1 className="mb-2.5 text-[16px]">CTA</h1>
+            <h1 className="mb-2.5 text-[16px] font-semibold">CTA</h1>
             <input
               type="text"
               className="border text-base font-normal w-96 h-14 rounded-lg pl-1 placeholder:pl-1 placeholder:text-[16px]"
