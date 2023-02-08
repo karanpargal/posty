@@ -21,6 +21,7 @@ const InputScreen = () => {
   const [formatIDs, setFormatIDs] = useState([]);
   const [currImage, setCurrImage] = useState("");
   const [logo, setLogo] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const URL = process.env.REACT_APP_API_URL;
 
   const navigate = useNavigate();
@@ -112,10 +113,12 @@ const InputScreen = () => {
 
   async function handleDownloadImage(url, index) {
     const response = await axios.get(url, {
-      responseType: 'text'
+      responseType: "text",
     });
-    const fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
-    const link = document.createElement('a');
+    const fileBlob = new Blob([response.data], {
+      type: response.headers["content-type"],
+    });
+    const link = document.createElement("a");
     link.href = URL.createObjectURL(fileBlob);
     link.download = index;
     link.click();
@@ -145,6 +148,7 @@ const InputScreen = () => {
   };
 
   const S3Bucket = () => {
+    setIsLoading(true);
     Axios.get(
       `${URL}api/generateTemplates/?title=${headline}&cta=${cta}&body=${body}&formatValue=${format}&description=${description}`
     )
@@ -158,6 +162,7 @@ const InputScreen = () => {
         setIsTemplateOpen(true);
         setCurrImage(data.images);
         setTimeStamp(new Date().getTime());
+        setIsLoading(false);
       });
   };
 
@@ -208,7 +213,9 @@ const InputScreen = () => {
             />
           </div>
           <div className="mb-4">
-            <h1 className="mb-2.5 text-[16px] font-semibold">Heading<span className="text-red-500 text-lg">*</span></h1>
+            <h1 className="mb-2.5 text-[16px] font-semibold">
+              Heading<span className="text-red-500 text-lg">*</span>
+            </h1>
             <div className="flex w-96 h-14">
               <input
                 type="text"
@@ -280,115 +287,119 @@ const InputScreen = () => {
             Create Posts
           </button>
         </div>
-        <div id="responseScreen" className="justify-self-center">
-          {!isTemplateOpen ? (
-            <div className="grid grid-cols-1 mt-56 justify-items-center ml-96">
-              <h1 className="text-4xl font-semibold mb-4">
-                Your templates will be generated here!
-              </h1>
-              <h1 className="text-xl font-medium mb-4">
-                Click on ‘Create Posts’, to generate templates
-              </h1>
-            </div>
-          ) : (
-            <div>
-              <h1 className="font-semibold text-3xl my-4">
-                Generated Templates
-              </h1>
-              <div className="grid grid-cols-3 gap-y-5 gap-x-6 ml-4 mr-6">
-                {templateURLs.map((url, index) => (
-                  <div>
-                    <div className="group relative ">
-                      <img
-                        src={url + `?${timestamp}`}
-                        alt="Template Generated"
-                        className="object-cover max-w-[400px] max-h-[400px] rounded-lg  group-hover:opacity-60 "
-                      />
-                      <svg
-                        class="absolute z-0 block m-auto  text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
-                        onClick={() => {
-                          handleOpenImage(url, index);
-                        }}
-                      >
-                        <path
-                          d="M26.424 5.39545C30.7793 5.38097 35.0503 6.59583 38.7459 8.90037C42.4415 11.2049 45.4118 14.5056 47.3153 18.4229C43.4071 26.4052 35.4248 31.4503 26.424 31.4503C17.4232 31.4503 9.44098 26.4052 5.53274 18.4229C7.43621 14.5056 10.4065 11.2049 14.1021 8.90037C17.7978 6.59583 22.0687 5.38097 26.424 5.39545ZM26.424 0.658203C14.5809 0.658203 4.46686 8.02463 0.369141 18.4229C4.46686 28.8212 14.5809 36.1876 26.424 36.1876C38.2671 36.1876 48.3812 28.8212 52.4789 18.4229C48.3812 8.02463 38.2671 0.658203 26.424 0.658203ZM26.424 12.5013C27.9945 12.5013 29.5007 13.1252 30.6112 14.2357C31.7217 15.3462 32.3456 16.8524 32.3456 18.4229C32.3456 19.9934 31.7217 21.4996 30.6112 22.6101C29.5007 23.7206 27.9945 24.3445 26.424 24.3445C24.8535 24.3445 23.3473 23.7206 22.2368 22.6101C21.1263 21.4996 20.5025 19.9934 20.5025 18.4229C20.5025 16.8524 21.1263 15.3462 22.2368 14.2357C23.3473 13.1252 24.8535 12.5013 26.424 12.5013ZM26.424 7.76408C20.5498 7.76408 15.7652 12.5487 15.7652 18.4229C15.7652 24.2971 20.5498 29.0817 26.424 29.0817C32.2982 29.0817 37.0828 24.2971 37.0828 18.4229C37.0828 12.5487 32.2982 7.76408 26.424 7.76408Z"
-                          fill="white"
+        {isLoading ? (
+          <div className="mt-80 text-4xl font-semibold">Loading ...</div>
+        ) : (
+          <div id="responseScreen" className="justify-self-center">
+            {!isTemplateOpen ? (
+              <div className="grid grid-cols-1 mt-56 justify-items-center ml-96">
+                <h1 className="text-4xl font-semibold mb-4">
+                  Your templates will be generated here!
+                </h1>
+                <h1 className="text-xl font-medium mb-4">
+                  Click on ‘Create Posts’, to generate templates
+                </h1>
+              </div>
+            ) : (
+              <div>
+                <h1 className="font-semibold text-3xl my-4">
+                  Generated Templates
+                </h1>
+                <div className="grid grid-cols-3 gap-y-5 gap-x-6 ml-4 mr-6">
+                  {templateURLs.map((url, index) => (
+                    <div>
+                      <div className="group relative ">
+                        <img
+                          src={url + `?${timestamp}`}
+                          alt="Template Generated"
+                          className="object-cover max-w-[400px] max-h-[400px] rounded-lg  group-hover:opacity-60 "
                         />
-                      </svg>
-                      <svg
-                        class="absolute block m-auto z-0  text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
-                        onClick={() => {
-                          handleDownloadImage(url, index);
-                        }}
-                      >
-                        <path
-                          d="M5.3642 38.3726C4.06146 38.3726 2.94663 37.9091 2.0197 36.9822C1.0912 36.0537 0.626953 34.9381 0.626953 33.6354V26.5295H5.3642V33.6354H33.7877V26.5295H38.525V33.6354C38.525 34.9381 38.0615 36.0537 37.1346 36.9822C36.2061 37.9091 35.0904 38.3726 33.7877 38.3726H5.3642ZM19.576 28.8981L7.73283 17.055L11.0489 13.6205L17.2073 19.7789V0.474609H21.9446V19.7789L28.103 13.6205L31.4191 17.055L19.576 28.8981Z"
-                          fill="white"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                ))}
-                {modalOpen && (
-                  <div class="fixed z-10 pt-10  p-2  md:inset-0 backdrop-blur-sm ">
-                    <div class="relative w-full ml-auto mr-auto h-[90%] max-w-4xl md:h-auto bg-white rounded-lg">
-                      <div class="flex justify-between ">
-                        <h1 className="text-2xl font-semibold ml-7">
-                          Template
-                        </h1>
                         <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          class="h-6 w-6 cursor-pointer mr-4"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                          onClick={handleModalClose}
+                          class="absolute z-0 block t-[50%] l-[40%] text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
+                          onClick={() => {
+                            handleOpenImage(url, index);
+                          }}
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"
+                            d="M26.424 5.39545C30.7793 5.38097 35.0503 6.59583 38.7459 8.90037C42.4415 11.2049 45.4118 14.5056 47.3153 18.4229C43.4071 26.4052 35.4248 31.4503 26.424 31.4503C17.4232 31.4503 9.44098 26.4052 5.53274 18.4229C7.43621 14.5056 10.4065 11.2049 14.1021 8.90037C17.7978 6.59583 22.0687 5.38097 26.424 5.39545ZM26.424 0.658203C14.5809 0.658203 4.46686 8.02463 0.369141 18.4229C4.46686 28.8212 14.5809 36.1876 26.424 36.1876C38.2671 36.1876 48.3812 28.8212 52.4789 18.4229C48.3812 8.02463 38.2671 0.658203 26.424 0.658203ZM26.424 12.5013C27.9945 12.5013 29.5007 13.1252 30.6112 14.2357C31.7217 15.3462 32.3456 16.8524 32.3456 18.4229C32.3456 19.9934 31.7217 21.4996 30.6112 22.6101C29.5007 23.7206 27.9945 24.3445 26.424 24.3445C24.8535 24.3445 23.3473 23.7206 22.2368 22.6101C21.1263 21.4996 20.5025 19.9934 20.5025 18.4229C20.5025 16.8524 21.1263 15.3462 22.2368 14.2357C23.3473 13.1252 24.8535 12.5013 26.424 12.5013ZM26.424 7.76408C20.5498 7.76408 15.7652 12.5487 15.7652 18.4229C15.7652 24.2971 20.5498 29.0817 26.424 29.0817C32.2982 29.0817 37.0828 24.2971 37.0828 18.4229C37.0828 12.5487 32.2982 7.76408 26.424 7.76408Z"
+                            fill="white"
+                          />
+                        </svg>
+                        <svg
+                          class="absolute block o z-0 t-[50%] l-[60%]   text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
+                          onClick={() => {
+                            handleDownloadImage(url, index);
+                          }}
+                        >
+                          <path
+                            d="M5.3642 38.3726C4.06146 38.3726 2.94663 37.9091 2.0197 36.9822C1.0912 36.0537 0.626953 34.9381 0.626953 33.6354V26.5295H5.3642V33.6354H33.7877V26.5295H38.525V33.6354C38.525 34.9381 38.0615 36.0537 37.1346 36.9822C36.2061 37.9091 35.0904 38.3726 33.7877 38.3726H5.3642ZM19.576 28.8981L7.73283 17.055L11.0489 13.6205L17.2073 19.7789V0.474609H21.9446V19.7789L28.103 13.6205L31.4191 17.055L19.576 28.8981Z"
+                            fill="white"
                           />
                         </svg>
                       </div>
+                    </div>
+                  ))}
+                  {modalOpen && (
+                    <div class="fixed z-10 pt-10  p-2  md:inset-0 backdrop-blur-sm ">
+                      <div class="relative w-full ml-auto mr-auto h-[90%] max-w-4xl md:h-auto bg-white rounded-lg">
+                        <div class="flex justify-between ">
+                          <h1 className="text-2xl font-semibold ml-7">
+                            Template
+                          </h1>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6 cursor-pointer mr-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            onClick={handleModalClose}
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </div>
 
-                      <img
-                        src={selectedTemplate + `?${timestamp}`}
-                        alt="Selected Template"
-                        className="p-10 object-cover max-h-[80%]"
-                      />
-                      <div className="flex justify-between px-2 pb-5">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            handleChangeColour(selectedURLIndex);
-                          }}
-                          class="text-white ml-10 bg-site-purple w-48 h-16  font-medium text-sm px-5 py-2.5 focus:outline-none rounded-lg"
-                        >
-                          Change Colour
-                        </button>
-                        <button
-                          type="button"
-                          class="text-white bg-site-purple mr-10 w-48 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-lg"
-                          onClick={() => {
-                            S3Bucket();
-                            handleOpenImage(
-                              templateURLs[selectedURLIndex],
-                              selectedURLIndex
-                            );
-                          }}
-                        >
-                          Change Image
-                        </button>
+                        <img
+                          src={selectedTemplate + `?${timestamp}`}
+                          alt="Selected Template"
+                          className="p-10 object-cover max-h-[80%]"
+                        />
+                        <div className="flex justify-between px-2 pb-5">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleChangeColour(selectedURLIndex);
+                            }}
+                            class="text-white ml-10 bg-site-purple w-48 h-16  font-medium text-sm px-5 py-2.5 focus:outline-none rounded-lg"
+                          >
+                            Change Colour
+                          </button>
+                          <button
+                            type="button"
+                            class="text-white bg-site-purple mr-10 w-48 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-lg"
+                            onClick={() => {
+                              S3Bucket();
+                              handleOpenImage(
+                                templateURLs[selectedURLIndex],
+                                selectedURLIndex
+                              );
+                            }}
+                          >
+                            Change Image
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
