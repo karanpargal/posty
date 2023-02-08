@@ -304,7 +304,7 @@ const InputScreen = () => {
                         className="object-cover max-w-[400px] max-h-[400px] rounded-lg  group-hover:opacity-60 "
                       />
                       <svg
-                        class="absolute z-0 block m-auto top-36 left-24 text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
+                        class="absolute z-0 block m-auto  text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
                         onClick={() => {
                           handleOpenImage(url, index);
                         }}
@@ -315,7 +315,7 @@ const InputScreen = () => {
                         />
                       </svg>
                       <svg
-                        class="absolute block m-auto z-0 top-36 left-48 text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
+                        class="absolute block m-auto z-0  text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
                         onClick={() => {
                           handleDownloadImage(url, index);
                         }}
