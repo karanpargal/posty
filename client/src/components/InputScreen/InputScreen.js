@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Axios } from "../../scripts/sdk-client";
+import {AWS} from "aws-sdk";
 import Navbar from "../Navbar/Navbar";
-import axios from "axios";
 
 const InputScreen = () => {
   const [cta, setCta] = useState("");
@@ -112,16 +112,18 @@ const InputScreen = () => {
   // };
 
   async function handleDownloadImage(url, index) {
-    // const response = await axios.get(url, {
-    //   responseType: "text",
-    // });
-    // const fileBlob = new Blob([response.data], {
-    //   type: response.headers["content-type"],
-    // });
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = index;
-    link.click();
+    let urlArray = url.split("/");
+    let bucket = urlArray[3];
+    let key = `${urlArray[4]}/${urlArray[5]}`;
+    let s3 = new AWS.S3({ params: { Bucket: bucket } });
+    let params = { Bucket: bucket, Key: key };
+    s3.getObject(params, (err, data) => {
+      let blob = new Blob([data.Body], { type: data.ContentType });
+      let link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = url;
+      link.click();
+    });
   }
 
   const handleModalClose = () => {
