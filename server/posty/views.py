@@ -96,7 +96,7 @@ class generateTemplates(APIView):
             driver.maximize_window()
 
             for i in range(len(templateLinks)):
-                template_name = templateLinks[0].split("/")[-1].split(".")[0]
+                template_name = templateLinks[i].split("/")[-1].split(".")[0]
                 base = os.path.abspath(os.path.dirname(__file__))
                 html = open(os.path.join(base, template_name + ".html"))
                 soup = bs(html, "html.parser")
