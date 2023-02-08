@@ -291,7 +291,7 @@ const InputScreen = () => {
                       <img
                         src={url + `?${timestamp}`}
                         alt="Template Generated"
-                        className="object-cover max-w-full max-h-full rounded-lg  group-hover:opacity-60 "
+                        className="object-cover max-w-[500px] max-h-[500px] rounded-lg  group-hover:opacity-60 "
                       />
                       <svg
                         class="absolute z-0 top-36 left-24 text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
