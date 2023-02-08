@@ -155,7 +155,9 @@ const InputScreen = () => {
       {/* <Navbar /> */}
       <div className="grid grid-flow-col h-[100%] auto-cols-max gap-auto">
         <div className="justify-self-start font-medium border-r-2 pl-[39px] pr-[23px]">
-          <h1 className="font-semibold text-[30px] mb-3.5 mt-4">BannerBuilder</h1>
+          <h1 className="font-semibold text-[30px] mb-3.5 mt-4">
+            BannerBuilder
+          </h1>
           <div className="">
             <h1 className="mb-2.5 text-[16px]">Platform</h1>
             <select
@@ -169,7 +171,9 @@ const InputScreen = () => {
             </select>
           </div>
           <div className="w-72 mb-4">
-            <h1 className="mb-2.5 text-[16px]">Dimensions<span className="text-red-500 text-lg">*</span></h1>
+            <h1 className="mb-2.5 text-[16px]">
+              Dimensions<span className="text-red-500 text-lg">*</span>
+            </h1>
             <select
               id="format"
               className="rounded-lg w-96 border-2 border-site-purple py-2 px-1 font-normal text-base"
@@ -182,7 +186,9 @@ const InputScreen = () => {
             </select>
           </div>
           <div className="mb-4">
-            <h1 className="mb-2.5 text-[16px]">Keywords<span className="text-red-500 text-lg">*</span></h1>
+            <h1 className="mb-2.5 text-[16px]">
+              Keywords<span className="text-red-500 text-lg">*</span>
+            </h1>
             <input
               type="text"
               className="border text-base font-normal w-96 h-24 rounded-lg placeholder:pl-1 placeholder:text-[16px]"
@@ -191,9 +197,7 @@ const InputScreen = () => {
             />
           </div>
           <div className="mb-4">
-            <h1 className="mb-2.5 text-[16px]">
-              Heading 
-            </h1>
+            <h1 className="mb-2.5 text-[16px]">Heading</h1>
             <div className="flex w-96 h-14">
               <input
                 type="text"
@@ -212,9 +216,7 @@ const InputScreen = () => {
             </div>
           </div>
           <div className="mb-4">
-            <h1 className="mb-2.5  text-[16px]">
-              Body 
-            </h1>
+            <h1 className="mb-2.5  text-[16px]">Body</h1>
             <div className="w-96">
               <textarea
                 type="text"
@@ -249,9 +251,7 @@ const InputScreen = () => {
           </div>
 
           <div className="mb-5">
-            <h1 className="mb-2.5 text-[16px]">
-              CTA
-            </h1>
+            <h1 className="mb-2.5 text-[16px]">CTA</h1>
             <input
               type="text"
               className="border text-base font-normal w-96 h-14 rounded-lg placeholder:pl-1 placeholder:text-[16px]"
@@ -291,7 +291,7 @@ const InputScreen = () => {
                       <img
                         src={url + `?${timestamp}`}
                         alt="Template Generated"
-                        className="object-cover max-w-[500px] max-h-[500px] rounded-lg  group-hover:opacity-60 "
+                        className="object-cover max-w-[400px] max-h-[400px] rounded-lg  group-hover:opacity-60 "
                       />
                       <svg
                         class="absolute z-0 top-36 left-24 text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
@@ -353,13 +353,13 @@ const InputScreen = () => {
                           onClick={() => {
                             handleChangeColour(selectedURLIndex);
                           }}
-                          class="text-white ml-10 bg-blue-700 w-48 h-16 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-lg"
+                          class="text-white ml-10 bg-site-purple w-48 h-16  font-medium text-sm px-5 py-2.5 focus:outline-none rounded-lg"
                         >
                           Change Colour
                         </button>
                         <button
                           type="button"
-                          class="text-white bg-blue-700 mr-10 w-48 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-lg"
+                          class="text-white bg-site-purple mr-10 w-48 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-lg"
                           onClick={() => {
                             S3Bucket();
                             handleOpenImage(
