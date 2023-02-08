@@ -191,7 +191,7 @@ const InputScreen = () => {
             </h1>
             <input
               type="text"
-              className="border text-base font-normal w-96 h-24 rounded-lg placeholder:pl-1 placeholder:text-[16px]"
+              className="border text-base font-normal w-96 h-24 rounded-lg pl-1 placeholder:pl-1 placeholder:text-[16px]"
               placeholder="Eg: Candy, Cosmetics, Electronics"
               onChange={handleSetDescription}
             />
@@ -201,9 +201,9 @@ const InputScreen = () => {
             <div className="flex w-96 h-14">
               <input
                 type="text"
-                className="border w-96 text-base font-normal w-96 h-14 rounded-l-lg placeholder:pl-1 placeholder:text-[16px]"
+                className="border w-96 text-base font-normal w-96 h-14 rounded-l-lg pl-1 placeholder:pl-1 placeholder:text-[16px]"
                 id="headline"
-                placeholder="Eg. Sale Sale Sale - 50% Discount"
+                placeholder="Eg. Special Offer!"
                 onChange={handleSetHeadline}
               />
               <button
@@ -223,7 +223,7 @@ const InputScreen = () => {
                 class="w-96 p-2.5 resize-none border rounded-lg mb-1.5"
                 id="body"
                 rows="5"
-                placeholder="Eg. Sale! Sale! Sale!"
+                placeholder="Eg. Discount of 30% on all our products on the occasion of Christmas!"
                 onChange={handleSetBody}
               />
               <button
@@ -254,7 +254,7 @@ const InputScreen = () => {
             <h1 className="mb-2.5 text-[16px]">CTA</h1>
             <input
               type="text"
-              className="border text-base font-normal w-96 h-14 rounded-lg placeholder:pl-1 placeholder:text-[16px]"
+              className="border text-base font-normal w-96 h-14 rounded-lg pl-1 placeholder:pl-1 placeholder:text-[16px]"
               placeholder="Eg: Order Now"
               onChange={handleSetCTA}
             />
