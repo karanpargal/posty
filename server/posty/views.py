@@ -125,7 +125,6 @@ class generateTemplates(APIView):
                 driver.find_element(By.ID, "template").screenshot(
                     os.path.join(base, template_name + ".png")
                 )
-                driver.quit()
                 uploadTemplateToS3(
                     request, template_name + ".png", uploaded_URLs=uploaded_URLs
                 )
@@ -141,8 +140,7 @@ class generateTemplates(APIView):
             )
 
         except Exception as e:
-            import json
-            return Response(status=500, data=json.dumps(e.__dict__))
+            return Response(status=500, error=e)
 
 
 def uploadTemplateToS3(request, file_name, uploaded_URLs, format=None):
@@ -284,7 +282,6 @@ def fetchOtherColor(request):
             driver.find_element(By.ID, "template").screenshot(
                 os.path.join(base, template_name + ".png")
             )
-            driver.quit()
             uploadTemplateToS3(
                 request, template_name + ".png", uploaded_URLs=uploaded_URLs
             )

@@ -2,6 +2,7 @@ services:
   posty:
     image: posty
     build:
+      shm_size: 1gb
       dockerfile: ./Dockerfile.server
     environment:
       COHESIVE_API_KEY : 3607912730383d79e527cea4beba6f70d32e06ed7b488040d0adb1b72c0071fd
