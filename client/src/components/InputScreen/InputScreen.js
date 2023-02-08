@@ -295,11 +295,11 @@ const InputScreen = () => {
                 <div className="grid grid-cols-3 gap-y-5 gap-x-6 ml-4 mr-6">
                   {templateURLs.map((url, index) => (
                     <div>
-                      <div className="group relative ">
+                      <div className="group">
                         <img
                           src={url + `?${timestamp}`}
                           alt="Template Generated"
-                          className="absolute object-cover max-w-[400px] max-h-[400px] rounded-lg  group-hover:opacity-60 "
+                          className="relative object-cover max-w-[400px] max-h-[400px] rounded-lg  group-hover:opacity-60 "
                         />
                         <svg
                           class="absolute z-0 block t-[50%] l-[40%] text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
