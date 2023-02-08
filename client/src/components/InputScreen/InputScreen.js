@@ -155,9 +155,9 @@ const InputScreen = () => {
       {/* <Navbar /> */}
       <div className="grid grid-flow-col h-[100%] auto-cols-max gap-auto">
         <div className="justify-self-start font-medium border-r-2 pl-[39px] pr-[23px]">
-          <h1 className="font-semibold text-[30px] mb-3.5 mt-4">Edit Input</h1>
+          <h1 className="font-semibold text-[30px] mb-3.5 mt-4">BannerBuilder</h1>
           <div className="">
-            <h1 className="mb-2.5 text-[16px]">Social Media Platform</h1>
+            <h1 className="mb-2.5 text-[16px]">Platform</h1>
             <select
               id="Platform"
               className="rounded-lg w-96 border-2 border-site-purple py-2 px-1 font-normal text-base mb-4"
@@ -169,7 +169,7 @@ const InputScreen = () => {
             </select>
           </div>
           <div className="w-72 mb-4">
-            <h1 className="mb-2.5 text-[16px]">Dimensions</h1>
+            <h1 className="mb-2.5 text-[16px]">Dimensions<span className="text-red-500 text-lg">*</span></h1>
             <select
               id="format"
               className="rounded-lg w-96 border-2 border-site-purple py-2 px-1 font-normal text-base"
@@ -182,7 +182,7 @@ const InputScreen = () => {
             </select>
           </div>
           <div className="mb-4">
-            <h1 className="mb-2.5 text-[20px]">Keywords</h1>
+            <h1 className="mb-2.5 text-[16px]">Keywords<span className="text-red-500 text-lg">*</span></h1>
             <input
               type="text"
               className="border text-base font-normal w-96 h-24 rounded-lg placeholder:pl-1 placeholder:text-[16px]"
@@ -192,7 +192,7 @@ const InputScreen = () => {
           </div>
           <div className="mb-4">
             <h1 className="mb-2.5 text-[16px]">
-              Heading <span className="text-gray-500 text-sm">(optional)</span>
+              Heading 
             </h1>
             <div className="flex w-96 h-14">
               <input
@@ -213,7 +213,7 @@ const InputScreen = () => {
           </div>
           <div className="mb-4">
             <h1 className="mb-2.5  text-[16px]">
-              Body <span className="text-gray-500 text-sm">(optional)</span>
+              Body 
             </h1>
             <div className="w-96">
               <textarea
@@ -238,10 +238,10 @@ const InputScreen = () => {
               class="block mb-2.5 font-medium text-gray-900 text-[16px]"
               for="file_input"
             >
-              Logo <span className="text-gray-500 text-sm">(optional)</span>
+              Logo
             </label>
             <input
-              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:bg-site-purple file:text-white file:py-3 file:border-0"
+              className="w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 file:bg-site-purple file:text-white file:py-3 file:rounded-r-lg file:border-0 file:mr-0 file:float-right"
               id="file_input"
               type="file"
               onChange={handleSetLogo}
@@ -250,7 +250,7 @@ const InputScreen = () => {
 
           <div className="mb-5">
             <h1 className="mb-2.5 text-[16px]">
-              CTA <span className="text-gray-500 text-sm">(optional)</span>
+              CTA
             </h1>
             <input
               type="text"
