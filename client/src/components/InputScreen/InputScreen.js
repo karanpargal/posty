@@ -111,7 +111,7 @@ const InputScreen = () => {
 
   async function handleDownloadImage(url, index) {
     const response = await Axios.get(url, {
-      responseType: 'blob'
+      responseType: 'text'
     });
     const fileBlob = new Blob([response.data], { type: response.headers['content-type'] });
     const link = document.createElement('a');
