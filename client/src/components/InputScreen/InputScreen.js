@@ -112,14 +112,14 @@ const InputScreen = () => {
   // };
 
   async function handleDownloadImage(url, index) {
-    const response = await axios.get(url, {
-      responseType: "text",
-    });
-    const fileBlob = new Blob([response.data], {
-      type: response.headers["content-type"],
-    });
+    // const response = await axios.get(url, {
+    //   responseType: "text",
+    // });
+    // const fileBlob = new Blob([response.data], {
+    //   type: response.headers["content-type"],
+    // });
     const link = document.createElement("a");
-    link.href = URL.createObjectURL(fileBlob);
+    link.href = url;
     link.download = index;
     link.click();
   }
@@ -326,7 +326,7 @@ const InputScreen = () => {
                           />
                         </svg>
                         <svg
-                          class="absolute block o z-0 t-[50%] l-[60%]   text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
+                          class="absolute block z-0 t-[50%] l-[60%] text-white opacity-0 group-hover:opacity-100 group-hover:z-2"
                           onClick={() => {
                             handleDownloadImage(url, index);
                           }}
