@@ -208,7 +208,7 @@ const InputScreen = () => {
                 type="text"
                 className="border w-96 text-base font-normal w-96 h-14 rounded-l-lg pl-1 placeholder:pl-1 placeholder:text-[16px]"
                 id="headline"
-                maxLength="36"
+                maxLength="20"
                 placeholder="Eg. Special Offer!"
                 onChange={handleSetHeadline}
               />
@@ -229,7 +229,7 @@ const InputScreen = () => {
                 class="w-96 p-2.5 resize-none border rounded-lg mb-1.5"
                 id="body"
                 rows="5"
-                maxLength="72"
+                maxLength="40"
                 placeholder="Eg. Discount of 30% on all our products on the occasion of Christmas!"
                 onChange={handleSetBody}
               />
@@ -263,7 +263,7 @@ const InputScreen = () => {
               type="text"
               className="border text-base font-normal w-96 h-14 rounded-lg pl-1 placeholder:pl-1 placeholder:text-[16px]"
               placeholder="Eg: Order Now"
-              maxLength="20"
+              maxLength="14"
               onChange={handleSetCTA}
             />
           </div>
