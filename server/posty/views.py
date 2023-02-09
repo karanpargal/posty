@@ -272,6 +272,7 @@ def fetchOtherColor(request):
             chrome_options.add_argument("--headless")
             chrome_options.add_argument("--disable-gpu")
             chrome_options.add_argument("--window-size=1920,1920")
+            chrome_options.add_argument('--disable-dev-shm-usage')       
             driver = webdriver.Chrome(options=chrome_options)
             driver.maximize_window()
             pathToFile = os.path.join(base, template_name + ".html")
