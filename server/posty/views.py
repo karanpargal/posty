@@ -314,3 +314,21 @@ def fetchAllTemplates(request):
         except Exception as e:
             print(e)
             return Response(status=404)
+
+@api_view(["GET"])
+def fetchRecentTemplates(request):
+    if request.method == "GET":
+        try:
+            if not isinstance(request.auth_details, AuthDetails):
+                return Response({"error": "no auth details found"}, status=401)
+            s3 = boto3.resource("s3")
+            bucket_name = s3.Bucket("posty-templates")
+            L=[]
+            for obj in bucket_name.objects.all(Prefix="generated-templates/"):
+                L.append("https://posty-templates.s3.amazonaws.com/generated-templates/"+obj.key)
+                if(len(L)==5):
+                    break
+            return JsonResponse({"urls":L})
+        except Exception as e:
+            print(e)
+            return Response(status=404)

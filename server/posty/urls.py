@@ -10,6 +10,7 @@ from posty.views import (
     fetchRandomImage,
     fetchOtherColor,
     fetchAllTemplates,
+    fetchRecentTemplates,
 )
 
 urlpatterns = [
@@ -56,4 +57,5 @@ urlpatterns = [
     path("fetchRandomImage/", fetchRandomImage),
     path("fetchOtherColor/", fetchOtherColor),
     path("fetchAllTemplates/", fetchAllTemplates),
+    path("fetchRecentTemplates/", fetchRecentTemplates),
 ]
