@@ -140,7 +140,7 @@ class generateTemplates(APIView):
             )
 
         except Exception as e:
-            return Response(status=500, error=e)
+            return JsonResponse({"error": str(e)})
 
 
 def uploadTemplateToS3(request, file_name, uploaded_URLs, format=None):
@@ -291,7 +291,7 @@ def fetchOtherColor(request):
             return JsonResponse({"url": uploaded_URLs, "color_id": new_color})
         except Exception as e:
             print(e)
-            return Response(status=404)
+            return JsonResponse({"error": str(e)})
 
 @api_view(["GET"])
 def fetchAllTemplates(request):
