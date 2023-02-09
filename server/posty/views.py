@@ -92,8 +92,6 @@ class generateTemplates(APIView):
             chrome_options.add_argument("--headless")
             chrome_options.add_argument("--disable-gpu")
             chrome_options.add_argument("--window-size=1920,1920")
-            driver = webdriver.Chrome(options=chrome_options)
-            driver.maximize_window()
 
             for i in range(len(templateLinks)):
                 template_name = templateLinks[i].split("/")[-1].split(".")[0]
@@ -115,6 +113,8 @@ class generateTemplates(APIView):
                 old_body.clear()
                 old_body.append(body)
                 pathToFile = os.path.join(base, template_name + ".html")
+                driver = webdriver.Chrome(options=chrome_options)
+                driver.maximize_window()
                 with open(
                     pathToFile, "wb"
                 ) as f_output:
@@ -128,7 +128,7 @@ class generateTemplates(APIView):
                 uploadTemplateToS3(
                     request, template_name + ".png", uploaded_URLs=uploaded_URLs
                 )
-            driver.quit()
+                driver.quit()
             return JsonResponse(
                 {
                     "urls": uploaded_URLs,
