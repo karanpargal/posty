@@ -310,7 +310,7 @@ const InputScreen = () => {
               </div>
             ) : (
               <div>
-                <h1 className="font-semibold text-3xl my-4 pl-4">
+                <h1 className="font-semibold text-3xl my-4">
                   Generated Templates
                 </h1>
                 <div className="grid grid-cols-3 gap-y-5 gap-x-6 ml-4 mr-6">
