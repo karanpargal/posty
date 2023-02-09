@@ -184,8 +184,8 @@ const InputScreen = () => {
             >
               <option selected>Choose a dimension</option>
               <option value="1080x1080">Square(1:1)</option>
-              <option value="1920x1080">Story(9:16)</option>
-              <option value="1080x1920">Banner(16:9)</option>
+              <option value="1920x1080">Banner(16:9)</option>
+              <option value="1080x1920">Story(9:16)</option>
             </select>
           </div>
           <div className="mb-4">
