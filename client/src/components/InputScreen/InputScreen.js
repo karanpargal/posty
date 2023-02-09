@@ -281,7 +281,7 @@ const InputScreen = () => {
           <div className="mt-80 text-4xl font-semibold">
             <svg
               aria-hidden="true"
-              class="inline w-10 h-10 pl-96 text-gray-200 animate-spin dark:text-gray-600 fill-site-purple"
+              class="inline w-10 h-10 ml-10 text-gray-200 animate-spin dark:text-gray-600 fill-site-purple"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
