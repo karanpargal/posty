@@ -87,11 +87,7 @@ class generateTemplates(APIView):
                     + ".html",
                 )
             templateLinks = template_list
-            chrome_options = webdriver.ChromeOptions()
-            chrome_options.add_argument("--no-sandbox")
-            chrome_options.add_argument("--headless")
-            chrome_options.add_argument("--disable-gpu")
-            chrome_options.add_argument("--window-size=1920,1920")
+            
 
             for i in range(len(templateLinks)):
                 template_name = templateLinks[i].split("/")[-1].split(".")[0]
@@ -113,6 +109,13 @@ class generateTemplates(APIView):
                 old_body.clear()
                 old_body.append(body)
                 pathToFile = os.path.join(base, template_name + ".html")
+                chrome_options = webdriver.ChromeOptions()
+                chrome_options.add_argument("--no-sandbox")
+                chrome_options.add_argument("--headless")
+                chrome_options.add_argument("--disable-gpu")
+                chrome_options.add_argument("--window-size=1920,1920")
+                chrome_options.add_argument('--disable-dev-shm-usage')   
+                chrome_options.add_argument("--disable-setuid-sandbox")  
                 driver = webdriver.Chrome(options=chrome_options)
                 driver.maximize_window()
                 with open(
