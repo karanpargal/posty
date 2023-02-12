@@ -11,7 +11,6 @@ class Template(models.Model):
 
 class Template_format(models.Model):
     format_id = models.AutoField(primary_key=True)
-    template_id = models.ForeignKey(Template, on_delete=models.CASCADE)
     format = models.CharField(max_length=9)
 
     def __str__(self):
