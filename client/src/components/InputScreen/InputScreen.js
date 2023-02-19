@@ -72,24 +72,6 @@ const InputScreen = () => {
     console.log(logo);
   };
 
-  const handleClickHeadline = () => {
-    const prompt = document.getElementById("headline").value;
-    Axios.get(`${URL}api/rephrasePrompt/?prompt=${prompt}`)
-      .then((response) => response.data)
-      .then((data) => {
-        document.getElementById("headline").value = data.message;
-      });
-  };
-
-  const handleClickBody = () => {
-    const prompt = document.getElementById("body").value;
-    Axios.get(`${URL}api/rephrasePrompt/?prompt=${prompt}`)
-      .then((response) => response.data)
-      .then((data) => {
-        document.getElementById("body").value = data.message;
-      });
-  };
-
   const handleOpenImage = (url, index) => {
     setSelectedTemplate(url);
     setSelectedURLIndex(index);
@@ -212,13 +194,7 @@ const InputScreen = () => {
                 placeholder="Eg. Special Offer!"
                 onChange={handleSetHeadline}
               />
-              <button
-                type="button"
-                class="text-white bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-r-lg"
-                onClick={handleClickHeadline}
-              >
-                Rephrase
-              </button>
+
             </div>
           </div>
           <div className="mb-4">
@@ -233,13 +209,7 @@ const InputScreen = () => {
                 placeholder="Eg. Discount of 30% on all our products on the occasion of Christmas!"
                 onChange={handleSetBody}
               />
-              <button
-                type="button"
-                class="text-white w-96 bg-site-purple focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 focus:outline-none rounded-lg"
-                onClick={handleClickBody}
-              >
-                Rephrase Body
-              </button>
+              
             </div>
           </div>
           <div className="mb-4">

@@ -174,7 +174,8 @@ def uploadTemplateToS3(request, file_name, uploaded_URLs, format=None):
 
 
 def fetchRandomImage(description, format=None):
-    url = f"https://api.unsplash.com/photos/random?query={description}&client_id={settings.UNSPLASH_API_KEY}&orientation=landscape"
+    # url = f"https://api.unsplash.com/photos/random?query={description}&client_id={settings.UNSPLASH_API_KEY}&orientation=landscape"
+    url = f"https://api.unsplash.com/search/photos?page=1&query={description}&client_id={settings.UNSPLASH_API_KEY}&orientation=landscape"
     try:
         response = requests.get(url)
         response.raise_for_status()
