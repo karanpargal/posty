@@ -202,7 +202,7 @@ const InputScreen = () => {
             <div className="w-96">
               <textarea
                 type="text"
-                class="w-96 p-2.5 resize-none border rounded-lg mb-1.5"
+                class="w-96 p-2.5 resize-none border rounded-lg mb-1.5 text-base font-normal placeholder:pl-1 placeholder:text-[16px]"
                 id="body"
                 rows="5"
                 maxLength="40"
