@@ -109,29 +109,29 @@ class generateTemplates(APIView):
                 old_body.clear()
                 old_body.append(body)
                 pathToFile = os.path.join(base, template_name + ".html")
-                chrome_options = webdriver.ChromeOptions()
-                chrome_options.add_argument("--no-sandbox")
-                chrome_options.add_argument("--headless")
-                chrome_options.add_argument("--disable-gpu")
-                chrome_options.add_argument("--window-size=1920,1920")
-                chrome_options.add_argument('--disable-dev-shm-usage')   
-                chrome_options.add_argument("--disable-setuid-sandbox")  
-                driver = webdriver.Chrome(options=chrome_options)
-                driver.maximize_window()
-                with open(
-                    pathToFile, "wb"
-                ) as f_output:
-                    f_output.write(soup.encode())
-                driver.get("file://"+pathToFile)
-                time.sleep(0.5)
-                print(pathToFile)
-                driver.find_element(By.ID, "template").screenshot(
-                    os.path.join(base, template_name + ".png")
-                )
-                uploadTemplateToS3(
-                    request, template_name + ".png", uploaded_URLs=uploaded_URLs
-                )
-                driver.quit()
+                # chrome_options = webdriver.ChromeOptions()
+                # chrome_options.add_argument("--no-sandbox")
+                # chrome_options.add_argument("--headless")
+                # chrome_options.add_argument("--disable-gpu")
+                # chrome_options.add_argument("--window-size=1920,1920")
+                # chrome_options.add_argument('--disable-dev-shm-usage')   
+                # chrome_options.add_argument("--disable-setuid-sandbox")  
+                # driver = webdriver.Chrome(options=chrome_options)
+                # driver.maximize_window()
+                # with open(
+                #     pathToFile, "wb"
+                # ) as f_output:
+                #     f_output.write(soup.encode())
+                # driver.get("file://"+pathToFile)
+                # time.sleep(0.5)
+                # print(pathToFile)
+                # driver.find_element(By.ID, "template").screenshot(
+                #     os.path.join(base, template_name + ".png")
+                # )
+                # uploadTemplateToS3(
+                #     request, template_name + ".png", uploaded_URLs=uploaded_URLs
+                # )
+                # driver.quit()
             return JsonResponse(
                 {
                     "urls": uploaded_URLs,
@@ -174,6 +174,7 @@ def uploadTemplateToS3(request, file_name, uploaded_URLs, format=None):
 
 
 def fetchRandomImage(description, format=None):
+    description = description.replace(" ", "%20")
     url = f"https://api.unsplash.com/search/photos?page=1&query={description}&client_id={settings.UNSPLASH_API_KEY}&orientation=landscape"
     try:
         response = requests.get(url)
@@ -269,27 +270,27 @@ def fetchOtherColor(request):
             old_body.append(body)
             with open(os.path.join(base, template_name + ".html"), "wb") as f_output:
                 f_output.write(soup.encode())
-            chrome_options = webdriver.ChromeOptions()
-            chrome_options.add_argument("--no-sandbox")
-            chrome_options.add_argument("--headless")
-            chrome_options.add_argument("--disable-gpu")
-            chrome_options.add_argument("--window-size=1920,1920")
-            chrome_options.add_argument('--disable-dev-shm-usage')   
-            chrome_options.add_argument("--disable-setuid-sandbox")    
-            driver = webdriver.Chrome(options=chrome_options)
-            driver.maximize_window()
-            pathToFile = os.path.join(base, template_name + ".html")
-            driver.get("file://"+pathToFile)
-            time.sleep(0.5)
-            print(pathToFile)
-            time.sleep(1)
-            driver.find_element(By.ID, "template").screenshot(
-                os.path.join(base, template_name + ".png")
-            )
-            driver.quit()
-            uploadTemplateToS3(
-                request, template_name + ".png", uploaded_URLs=uploaded_URLs
-            )
+            # chrome_options = webdriver.ChromeOptions()
+            # chrome_options.add_argument("--no-sandbox")
+            # chrome_options.add_argument("--headless")
+            # chrome_options.add_argument("--disable-gpu")
+            # chrome_options.add_argument("--window-size=1920,1920")
+            # chrome_options.add_argument('--disable-dev-shm-usage')   
+            # chrome_options.add_argument("--disable-setuid-sandbox")    
+            # driver = webdriver.Chrome(options=chrome_options)
+            # driver.maximize_window()
+            # pathToFile = os.path.join(base, template_name + ".html")
+            # driver.get("file://"+pathToFile)
+            # time.sleep(0.5)
+            # print(pathToFile)
+            # time.sleep(1)
+            # driver.find_element(By.ID, "template").screenshot(
+            #     os.path.join(base, template_name + ".png")
+            # )
+            # driver.quit()
+            # uploadTemplateToS3(
+            #     request, template_name + ".png", uploaded_URLs=uploaded_URLs
+            # )
             return JsonResponse({"url": uploaded_URLs, "color_id": new_color})
         except Exception as e:
             print(e)

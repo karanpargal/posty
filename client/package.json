@@ -14,6 +14,7 @@
     "html-to-image": "^1.11.4",
     "html2canvas": "^1.4.1",
     "react": "^18.2.0",
+    "react-design-editor": "^0.0.52",
     "react-dom": "^18.2.0",
     "react-iframe": "^1.8.5",
     "react-scripts": "5.0.1",
