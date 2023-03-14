@@ -25,30 +25,6 @@ class TemplateViewSet(viewsets.ModelViewSet):
     queryset = Template.objects.all()
     serializer_class = TemplateSerializer
 
-
-class Template_formatViewSet(viewsets.ModelViewSet):
-    queryset = Template_format.objects.all()
-    serializer_class = Template_formatSerializer
-
-
-class Template_colorViewSet(viewsets.ModelViewSet):
-    queryset = Template_color.objects.all()
-    serializer_class = Template_colorSerializer
-
-
-class getImageURL(APIView):
-    def get(self, request, template_id, format_id, color_id, format=None):
-        try:
-            template = Template_color.objects.get(
-                template_id=template_id, format_id=format_id, color_id=color_id
-            )
-            read_serializer = Template_colorSerializer(template)
-            url = read_serializer.data["templateS3URL"]
-            return Response(url)
-        except:
-            return Response(status=404)
-
-
 class generateTemplates(APIView):
     def get(self, request, format=None):
         try:
@@ -109,29 +85,6 @@ class generateTemplates(APIView):
                 old_body.clear()
                 old_body.append(body)
                 pathToFile = os.path.join(base, template_name + ".html")
-                # chrome_options = webdriver.ChromeOptions()
-                # chrome_options.add_argument("--no-sandbox")
-                # chrome_options.add_argument("--headless")
-                # chrome_options.add_argument("--disable-gpu")
-                # chrome_options.add_argument("--window-size=1920,1920")
-                # chrome_options.add_argument('--disable-dev-shm-usage')   
-                # chrome_options.add_argument("--disable-setuid-sandbox")  
-                # driver = webdriver.Chrome(options=chrome_options)
-                # driver.maximize_window()
-                # with open(
-                #     pathToFile, "wb"
-                # ) as f_output:
-                #     f_output.write(soup.encode())
-                # driver.get("file://"+pathToFile)
-                # time.sleep(0.5)
-                # print(pathToFile)
-                # driver.find_element(By.ID, "template").screenshot(
-                #     os.path.join(base, template_name + ".png")
-                # )
-                # uploadTemplateToS3(
-                #     request, template_name + ".png", uploaded_URLs=uploaded_URLs
-                # )
-                # driver.quit()
             return JsonResponse(
                 {
                     "urls": uploaded_URLs,
